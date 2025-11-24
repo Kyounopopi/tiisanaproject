@@ -3,4 +3,4 @@ from .models import Customuser
 
 class CustomUserCreationForm(UserCreationForm):
     model = Customuser
-    fields = ('username', 'password_1', 'password_2')
+    fields = ('email', 'password_1', 'password_2')
