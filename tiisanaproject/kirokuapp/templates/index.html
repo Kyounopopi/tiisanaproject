@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <h1>Hello,World!</h1>
-    </head>
+    <body>
+        <header>
+            <li><a href="{% url "accounts:signup" %}"
+                   class="text-white">サインアップ</a></li>
+            <li><a href="{% url "accounts:login" %}"
+                   class="text-white">ログイン</a></li>
+        </header>
+    </body>
 </html>
