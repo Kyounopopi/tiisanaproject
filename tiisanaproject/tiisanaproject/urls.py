@@ -17,14 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from django.views import calendar_view
 
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include('kirokuapp.urls')),
 ]
 
-urlpatterns = [
-    path("calendar/", calendar_view, name="calendar"),
-    path("calendar/<int:year>/<int:month>/", calendar_view, name="calendar"),
-]

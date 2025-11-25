@@ -1,4 +1,5 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 from datetime import date
 import calendar
 # Create your views here.
@@ -22,3 +23,8 @@ def calendar_view(request, year=None, month=None):
         "month_name": calendar.month_name[month],
     }
     return render(request, "currender.html", context)
+
+from django.views.generic import TemplateView
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
