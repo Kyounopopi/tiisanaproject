@@ -1,5 +1,4 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from datetime import date
 import calendar
 # Create your views here.
