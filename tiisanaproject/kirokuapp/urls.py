@@ -8,5 +8,6 @@ urlpatterns = [
     
     path('home/', views.HomeView.as_view(), name='home'),
 
+    path('currender/', views.calendar_view, name='currender'),
     
 ]
