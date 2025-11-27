@@ -166,7 +166,10 @@
                   <a href="#" class="text-white">マイページ</a>
                 </li>
                 <li>
-                  <a href="{% url 'accounts:logout' %}" class="text-white">ログアウト</a>
+                  <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link text-white p-0 m-0 align-baseline">ログアウト</button>
+                  </form>
                 </li>
                 <li>
                   <a href="#" class="text-white">パスワードのリセット</a>
