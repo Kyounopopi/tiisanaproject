@@ -1,8 +1,6 @@
-{% comment %} {% load static %} {% endcomment %}
+{% load static %}
 
-
-<!doctype html>
-{% comment %} <html lang="ja" data-bs-theme="auto">
+<html lang="ja" data-bs-theme="auto">
   <head><script src="../assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
@@ -148,7 +146,7 @@
           </button>
         </li>
       </ul>
-    </div> {% endcomment %}
+    </div>
 
     
     <main class="form-signin w-100 m-auto">
@@ -186,7 +184,7 @@
         <p><a href="#">パスワードを忘れましたか？</a></p>
         <input type="hidden"
                name="next"
-               value="{% url 'photo:index' %}">
+               value="{% url 'kirokuapp:index' %}">
       </form>
     </main>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <body>
-        <header>
-            <li><a href="{% url "accounts:signup" %}"
-                   class="text-white">サインアップ</a></li>
-            <li><a href="{% url "accounts:login" %}"
-                   class="text-white">ログイン</a></li>
-        </header>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Photo Gallery{% endblock %}
+
+        {% block contents %}
+
+        {% comment %} {% include "photos_title.html" %} {% endcomment %}
+
+        {% comment %} {% include "photos_list.html" %} {% endcomment %}
+
+        {% endblock %}
