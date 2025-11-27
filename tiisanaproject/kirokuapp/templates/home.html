@@ -1,1 +1,22 @@
-{% static "base.html" %}
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+    {% block contents %}
+        <head>
+            <ul>
+                <li>
+                    <a href="{% url 'kirokuapp:home' %}">ホーム</a>
+                </li>
+                <li>
+                    <a href="{% url 'growthapp:growth' %}">成長記録  </a>
+                </li>
+                <li>
+                    <a href="{% url 'kirokuapp:home' %}">ホーム</a>
+                </li>
+                <li>
+                    <a href="{% url 'kirokuapp:home' %}">ホーム</a>
+                </li>
+            </ul>
+        <head>
+    {% endblock %}
