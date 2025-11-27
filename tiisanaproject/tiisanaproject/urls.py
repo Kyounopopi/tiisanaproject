@@ -24,5 +24,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('kirokuapp.urls')),
     path('', include('accounts.urls')),
+    path('', include('growthapp.urls'))
 ]
 
