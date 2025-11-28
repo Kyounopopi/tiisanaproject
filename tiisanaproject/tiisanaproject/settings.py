@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "kirokuapp.apps.KirokuappConfig",
     "accounts.apps.AccountsConfig",
+    "albumapp.apps.AlbumappConfig",
+    "photoapp.apps.PhotoappConfig",
+    "growthapp.apps.GrowthappConfig",
 ]
 
 MIDDLEWARE = [
