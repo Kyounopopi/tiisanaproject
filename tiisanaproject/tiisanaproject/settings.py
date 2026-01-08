@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "albumapp.apps.AlbumappConfig",
     "photoapp.apps.PhotoappConfig",
     "growthapp.apps.GrowthappConfig",
+    'calendarapp',
 ]
 
 MIDDLEWARE = [

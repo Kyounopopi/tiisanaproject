@@ -5,5 +5,4 @@ app_name = 'calendarapp'
 
 urlpatterns = [
     path('currender/', views.calendar_view, name='currender'),
-    
 ]
