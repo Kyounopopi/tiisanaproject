@@ -1,0 +1,22 @@
+.date-scroll {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.date-scroll a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+}
+
+.date-scroll .active {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.card {
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 10px;
+}

@@ -1,0 +1,23 @@
+<h2>{{ selected_date|date:"Y/m/d" }}</h2>
+
+<!-- 日付横スクロール -->
+<div class="date-scroll">
+  {% for day in days %}
+    <a href="?date={{ day }}"
+       class="{% if day == selected_date %}active{% endif %}">
+       {{ day|date:"d" }}
+    </a>
+  {% endfor %}
+</div>
+
+<!-- 写真＋コメント -->
+<div class="records">
+  {% for record in records %}
+    <div class="card">
+      <img src="{{ record.image.url }}">
+      <div class="comment">{{ record.comment }}</div>
+    </div>
+  {% empty %}
+    <p>この日の記録はありません</p>
+  {% endfor %}
+</div>
