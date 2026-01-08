@@ -24,4 +24,9 @@ urlpatterns = [
          auth_views.LogoutView.as_view(template_name='logout.html'),
          name='logout'
         ),
+    path('account/',
+          views.AccountscreenView.as_view(template_name='accountscreen.html'),
+          name='accountscreen'
+         ),
+
 ]

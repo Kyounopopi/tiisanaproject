@@ -15,3 +15,16 @@ class SignUpView(CreateView):
 
 class SignUpSuccessView(TemplateView):
     template_name = "signup_success.html"
+
+
+class AccountscreenView(CreateView):
+    form_class = CustomUserCreationForm
+    template_name = "accountscreen.html"
+    success_url = reverse_lazy('accounts:account_itirann')
+
+    def form_valid(self, form):
+        user = form.save()
+        self.object = user
+
+        return super().form_valid(form)
+
