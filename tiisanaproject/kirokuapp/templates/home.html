@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}ちいさなキロク/HOME{% endblock %}
 
     {% block contents %}
-        <head>
+        <body>
             <ul>
                 <li>
                     <a href="{% url 'kirokuapp:home' %}">ホーム</a>
@@ -21,5 +21,5 @@
                     <a href="{% url 'kirokuapp:home' %}">カレンダー</a>
                 </li>
             </ul>
-        <head>
+        <body>
     {% endblock %}
