@@ -1,13 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <title>{% block title %}ちいさなキロク{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Site{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+
     <style>
         body {
-            background-color: #fff8e6; /* クリーム色 */
+            background-color: #fff8e6;
             margin: 0;
             font-family: 'Arial', sans-serif;
             color: #5c4b3b;
@@ -20,13 +21,24 @@
             align-items: center;
             border-bottom: 1px solid #e0d3b8;
         }
-        .nav-right a {
-            margin-left: 20px;
-            text-decoration: none;
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-right a,
+        .nav-right button {
+            background: none;
+            border: none;
+            padding: 0;
             color: #5c4b3b;
             font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
         }
-        .nav-right a:hover {
+        .nav-right a:hover,
+        .nav-right button:hover {
             color: #a37c5b;
         }
         .container {
@@ -37,34 +49,30 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1 style="margin:22px; font-size: 24px;">ちいさなキロク</h1>
-        <nav class="nav-right">
-          <div style="
-              display: flex;
-              align-items: center;
-              gap: 20px;
-              padding-right: 40px;
-            ">
-            {% if user.is_authenticated %}
-                <a href="#" class="nav-link">マイページ</a>
 
-                <form action="{% url 'accounts:logout' %}" method="post" style="margin: 0;">
-                  {% csrf_token %}
-                  <button type="submit" class="nav-btn">ログアウト</button>
-                </form>
+{% block header %}
+<header>
+    <h1 class="font-family-1" style="margin:0; font-size: 24px;">ちいさなキロク</h1>
 
-            {% else %}
-                <a href="{% url 'accounts:signup' %}" class="nav-btn">サインアップ</a>
-                <a href="{% url 'accounts:login' %}" class="nav-btn">ログイン</a>
-            {% endif %}
-          </div>
-        </nav>
-    </header>
+    <nav class="nav-right">
+        {% if user.is_authenticated %}
+            <a href="#">マイページ</a>
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+            <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit">ログアウト</button>
+            </form>
+        {% else %}
+            <a href="{% url 'accounts:signup' %}">サインアップ</a>
+            <a href="{% url 'accounts:login' %}">ログイン</a>
+        {% endif %}
+    </nav>
+</header>
+{% endblock %}
+
+<div class="container">
+    {% block contents %}{% endblock %}
+</div>
+
 </body>
 </html>

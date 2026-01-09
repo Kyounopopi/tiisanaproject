@@ -1,10 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Log out{% endblock %}
-        {% block contents %}
-        <div class="container">
-            <div class="row">
-                <div class="col offset-4 py-4">
-                <h3>ログアウトしました</h3>
-                <p><a href="{% url 'kirokuapp:index' %}">トップページへ</a></p>
-        {% endblock %}
+{% block title %}ログアウト{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block contents %}
+
+<div style="
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+">
+
+  <div style="
+    background-color: #fffdf6;
+    padding: 32px 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: center;
+  ">
+    <h3 style="margin-bottom: 16px; color: #5c4b3b;">
+      ログアウトしました
+    </h3>
+
+    <p>
+      <a href="{% url 'kirokuapp:index' %}"
+         style="
+           text-decoration: none;
+           color: #a37c5b;
+           font-weight: bold;
+         ">
+        トップページへ
+      </a>
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}
