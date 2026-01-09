@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "albumapp.apps.AlbumappConfig",
     "photoapp.apps.PhotoappConfig",
     "growthapp.apps.GrowthappConfig",
-    'calendarapp',
+    'calendarapp.apps.CalendarappConfig',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +128,9 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
