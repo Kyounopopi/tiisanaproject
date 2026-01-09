@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "title-font";
+    src: url(../font/MachinoTecho-Regular-free.otf) format("truetype");
+    font-display: swap;
+}
+.font-family-1{
+    font-family: "title-font";
+}
