@@ -3,6 +3,7 @@ from django.views.generic import CreateView, TemplateView
 from .forms import CustomUserCreationForm
 from django. urls import reverse_lazy
 
+
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     template_name = "signup.html"
@@ -27,4 +28,11 @@ class AccountscreenView(CreateView):
         self.object = user
 
         return super().form_valid(form)
+    
+
+
+
+
+
+
 
