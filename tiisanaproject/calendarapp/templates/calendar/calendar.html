@@ -21,3 +21,15 @@
     <p>この日の記録はありません</p>
   {% endfor %}
 </div>
+
+{% for entry in calendar_day.entries.all %}
+  <div class="entry-card">
+    {% if entry.photo %}
+      <img src="{{ entry.photo.url }}">
+    {% endif %}
+    <div class="comment">
+      {{ entry.comment }}
+    </div>
+  </div>
+{% endfor %}
+
