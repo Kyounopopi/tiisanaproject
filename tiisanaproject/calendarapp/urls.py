@@ -9,6 +9,3 @@ app_name = 'calendarapp'
 urlpatterns = [
     path('currender/', views.calendar_view, name='currender'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,35 +1,23 @@
-<h2>{{ selected_date|date:"Y/m/d" }}</h2>
+
+<!-- 月移動ヘッダー -->
+<div class="calendar-month-header">
+  <a href="?year={{ prev_month.year }}&month={{ prev_month.month }}">
+    ◀︎
+  </a>
+
+  <span>{{ year }}年 {{ month }}月</span>
+
+  <a href="?year={{ next_month.year }}&month={{ next_month.month }}">
+    ▶︎
+  </a>
+</div>
 
 <!-- 日付横スクロール -->
-<div class="date-scroll">
+<div class="calendar-date-scroll">
   {% for day in days %}
-    <a href="?date={{ day }}"
-       class="{% if day == selected_date %}active{% endif %}">
-       {{ day|date:"d" }}
+    <a href="?year={{ year }}&month={{ month }}&day={{ day.day }}"
+       class="{% if day == selected_date %}calendar-date-active{% endif %}">
+      {{ day.day }}
     </a>
   {% endfor %}
 </div>
-
-<!-- 写真＋コメント -->
-<div class="records">
-  {% for record in records %}
-    <div class="card">
-      <img src="{{ record.image.url }}">
-      <div class="comment">{{ record.comment }}</div>
-    </div>
-  {% empty %}
-    <p>この日の記録はありません</p>
-  {% endfor %}
-</div>
-
-{% for entry in calendar_day.entries.all %}
-  <div class="entry-card">
-    {% if entry.photo %}
-      <img src="{{ entry.photo.url }}">
-    {% endif %}
-    <div class="comment">
-      {{ entry.comment }}
-    </div>
-  </div>
-{% endfor %}
-
