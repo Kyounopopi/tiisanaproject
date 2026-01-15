@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 
 class CalendarDay(models.Model):
@@ -18,3 +17,11 @@ class DayEntry(models.Model):
     comment = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+class DailyRecord(models.Model):
+    date = models.DateField()
+    image = models.ImageField(upload_to="photos/")
+    comment = models.TextField(blank=True)
+
+    def __str__(self):
+        return str(self.date)
