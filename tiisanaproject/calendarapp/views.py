@@ -1,4 +1,3 @@
-# views.py
 from datetime import date, timedelta
 import calendar
 from django.shortcuts import render

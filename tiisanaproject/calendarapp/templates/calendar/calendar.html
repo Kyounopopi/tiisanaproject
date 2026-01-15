@@ -1,23 +1,24 @@
 
-<!-- 月移動ヘッダー -->
-<div class="calendar-month-header">
-  <a href="?year={{ prev_month.year }}&month={{ prev_month.month }}">
-    ◀︎
-  </a>
+<div class="calendar-box">
 
-  <span>{{ year }}年 {{ month }}月</span>
+  <!-- 右上の日付 + 矢印 -->
+  <div class="calendar-date-header">
+    <a href="?year={{ prev_month.year }}&month={{ prev_month.month }}">&#60;</a>
+    <span>{{ selected_date|date:"Y/m/d" }}</span>
+    <a href="?year={{ next_month.year }}&month={{ next_month.month }}">&#62;</a>
+  </div>
 
-  <a href="?year={{ next_month.year }}&month={{ next_month.month }}">
-    ▶︎
-  </a>
-</div>
+  <!-- タイトル -->
+  <div class="calendar-title"></div>
 
-<!-- 日付横スクロール -->
-<div class="calendar-date-scroll">
-  {% for day in days %}
-    <a href="?year={{ year }}&month={{ month }}&day={{ day.day }}"
-       class="{% if day == selected_date %}calendar-date-active{% endif %}">
-      {{ day.day }}
-    </a>
-  {% endfor %}
+  <!-- 日付横スクロール -->
+  <div class="calendar-date-scroll">
+    {% for day in days %}
+      <a href="?year={{ year }}&month={{ month }}&day={{ day.day }}"
+         class="calendar-date {% if day == selected_date %}active{% endif %}">
+        {{ day.day|stringformat:"02d" }}
+      </a>
+    {% endfor %}
+  </div>
+
 </div>
