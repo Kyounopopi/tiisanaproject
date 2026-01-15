@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('growthapp.urls')),
     path('', include('calendarapp.urls')),
+    path('', include('albumapp.urls')),
 ]
 
