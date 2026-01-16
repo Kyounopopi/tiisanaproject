@@ -3,6 +3,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <title>{% block title %}ちいさなキロク{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -52,7 +53,7 @@
 
 {% block header %}
 <header>
-    <h1 class="font-family-1" style="margin:0; font-size: 24px;">ちいさなキロク</h1>
+    <h1 class="font-family-1">ちいさなキロク</h1>
 
     <nav class="nav-right">
         {% if user.is_authenticated %}

@@ -1,0 +1,132 @@
+.date-scroll {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.date-scroll a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+}
+
+.date-scroll .active {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.card {
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.upload-box input,
+.upload-box textarea {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 20px;
+}
+
+.calendar-month-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.calendar-date-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 10px;
+}
+
+.calendar-date-active {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+body {
+  background: black;
+  color: white;
+}
+
+.calendar-box {
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  position: relative;
+}
+
+/* 右上の日付＋矢印 */
+.calendar-date-header {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.calendar-date-header a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* タイトル */
+.calendar-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 40px 0 20px;
+}
+
+/* 横スクロール */
+.calendar-date-scroll {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  justify-content: center;
+}
+
+/* 日付 */
+.calendar-date {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 選択中の日付（白丸） */
+.calendar-date.active {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.calendar-date-scroll {
+  margin-top: 10px;
+}
+
+.calendar-title,
+.calendar-date {
+  font-weight: bold;
+}
+
+.calendar-date-scroll::-webkit-scrollbar {
+  display: none;
+}
+
