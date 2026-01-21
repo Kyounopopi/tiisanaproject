@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'calendarapp/calendar.css' %}">
+
+<div class="calendar-box">
+  <h2>コメント編集</h2>
+
+  <img src="{{ record.image.url }}" class="edit-image">
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save-btn">保存</button>
+  </form>
+</div>
