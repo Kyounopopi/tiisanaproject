@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}ちいさなキロク/HOME{% endblock %}
+{% block title %}ちいさなキロク/ホーム{% endblock %}
 
 {% block header %}
 <header>
@@ -29,10 +29,17 @@
                     <a href="{% url 'kirokuapp:home' %}">ホーム</a>
                 </li>
                 <li>
-                    <a href="{% url 'kirokuapp:home' %}">成長記録</a>
+                    <a href="{% url 'accounts:accounts'%}">アカウント</a>
                 </li>
                 <li>
-                    <a href="{% url 'kirokuapp:home' %}">アルバム</a>
+<<<<<<< HEAD
+                    <a href="{% url 'growthapp:growth' %}">成長記録</a>
+=======
+                    <a href="{% url 'kirokuapp:home' %}">成長記録</a>
+>>>>>>> 53dba39e0df05c27d0b96037fafc2361c986993a
+                </li>
+                <li>
+                    <a href="{% url 'albumapp:album' %}">アルバム</a>
                 </li>
                 <li>
                     <a href="{% url 'kirokuapp:home' %}">写真管理</a>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}アカウント情報一覧{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block contents %}
+
+<div style="
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+">
+
+  <div style="
+    background-color: #fffdf6;
+    padding: 32px 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: center;
+  ">
+  
+  <!-- アイコン表示　-->
+  
+  {% if user.icon %}
+    <img src="{{ user.icon.url }}" alt="アイコン" width="100">
+  {% else %}
+    <p> アイコン未設定 </p>
+  {% endif %}
+
+  <p>ユーザータイプ:{{ user.get_user_type_display }}</p>
+
+
+  {% if user.user_type == 'general' and profile %}
+    <h3>一般ユーザ情報</h3>
+    <p>性別: {{ profile.get_gender_display }}</p>
+    <p>生年月日: {{ profile.birth_date|default:"未設定" }}</p>
+    <p>年齢: {{ profile.get_age|default:"未設定" }}</p>
+
+  {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}
