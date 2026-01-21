@@ -4,8 +4,6 @@ from . import views
 app_name = 'albumapp'
 
 urlpatterns = [
-    path('album/', views.AlbumView.as_view(), name='album'),
-    
-    path('home/', views.HomeView.as_view(), name='home'),
-    
+    path("create/", views.AlbumCreateView.as_view(), name="album_create"),
+    path("favorite/<int:photo_id>/", views.ToggleFavoriteView.as_view(), name="toggle_favorite"),
 ]
