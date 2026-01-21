@@ -26,7 +26,7 @@ urlpatterns = [
         ),
     path('account/',
           views.AccountscreenView.as_view(template_name='accounts.html'),
-          name='account'
+          name='accounts'
          ),
     
 
