@@ -29,4 +29,4 @@ class GrowthView(View):
         )
 
         # 登録後リダイレクト（更新ボタンで重複登録を防ぐ）
-        return redirect("growth")
+        return redirect("/growth")
