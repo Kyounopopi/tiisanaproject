@@ -25,7 +25,9 @@ urlpatterns = [
     path('', include('kirokuapp.urls')),
     path('', include('accounts.urls')),
     path('', include('growthapp.urls')),
-    path('', include('calendarapp.urls')),
+    path('', include(('calendarapp.urls', 'calendarapp'), namespace='calendarapp')),
     path('', include('albumapp.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

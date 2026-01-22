@@ -1,0 +1,16 @@
+<h2>{{ selected_date|date:"Y年m月d日" }} の記録</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div>
+    {{ form.image.label_tag }}
+    {{ form.image }}
+  </div>
+
+  <div>
+    {{ form.comment }}
+  </div>
+
+  <button type="submit">保存</button>
+</form>

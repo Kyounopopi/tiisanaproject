@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 import calendar
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import DailyRecord
+from .forms import CommentForm, DailyRecordForm
 
 def calendar_view(request):
     today = date.today()
@@ -40,3 +41,41 @@ def calendar_view(request):
         "next_month": next_month,
     }
     return render(request, "calendar/calendar.html", context)
+
+
+def edit_comment(request, record_id):
+    record = get_object_or_404(DailyRecord, id=record_id)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect("calendar")  # カレンダー画面に戻る
+    else:
+        form = CommentForm(instance=record)
+
+    return render(request, "calendar/edit_comment.html", {
+        "form": form,
+        "record": record,
+    })
+
+def add_record(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    selected_date = date(year, month, day)
+
+    record, created = DailyRecord.objects.get_or_create(date=selected_date)
+
+    if request.method == 'POST':
+        form = DailyRecordForm(request.POST, request.FILES, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/currender/?year={year}&month={month}&day={day}")
+    else:
+        form = DailyRecordForm(instance=record)
+
+    return render(request, 'calendarapp/add_record.html', {
+        'form': form,
+        'selected_date': selected_date
+    })
