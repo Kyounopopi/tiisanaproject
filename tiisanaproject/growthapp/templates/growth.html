@@ -1,131 +1,60 @@
 {% extends "base.html" %}
 
-{% block content %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>成長管理</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            color: #3b5998;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table th, table td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        table th {
-            background-color: #f0f0f0;
-        }
-        .form-container {
-            margin-top: 30px;
-            background: #fafafa;
-            padding: 20px;
-            border-radius: 6px;
-        }
-        .form-group {
-            margin-bottom: 10px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 6px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 16px;
-            background-color: #3b5998;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #2d4373;
-        }
-    </style>
-</head>
-<body>
+{% block contents %}
 
-    <h1>赤ちゃんの成長管理</h1>
+<h1>赤ちゃんの成長管理</h1>
 
-    <!-- 成長データ一覧表示 -->
-    <table>
-        <thead>
-            <tr>
-                <th>日付</th>
-                <th>身長 (cm)</th>
-                <th>体重 (kg)</th>
-                <th>発達記録</th>
-                <th>コメント</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in growth %}
-            <tr>
-                <td>{{ record.date }}</td>
-                <td>{{ record.height }}</td>
-                <td>{{ record.weight }}</td>
-                <td>{{ record.baby_log }}</td>
-                <td>{{ record.comment }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">データがまだ登録されていません。</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- 成長データ一覧表示 -->
+<table>
+    <thead>
+        <tr>
+            <th>日付</th>
+            <th>身長 (cm)</th>
+            <th>体重 (kg)</th>
+            <th>発達記録</th>
+            <th>コメント</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in growth %}
+        <tr>
+            <td>{{ record.date }}</td>
+            <td>{{ record.height }}</td>
+            <td>{{ record.weight }}</td>
+            <td>{{ record.baby_log }}</td>
+            <td>{{ record.comment }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">データがまだ登録されていません。</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <!-- 成長データ入力フォーム -->
-    <div class="form-container">
-        <h2>成長データの追加</h2>
+<div class="form-container">
+    <h2>成長データの追加</h2>
 
-        <form method="POST" action="">
-            {% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
-            <div class="form-group">
-                <label for="date">日付</label>
-                <input type="date" name="date" required>
-            </div>
+        <label>日付</label>
+        <input type="date" name="date" required>
 
-            <div class="form-group">
-                <label for="height">身長 (cm)</label>
-                <input type="number" step="0.1" name="height" required>
-            </div>
+        <label>身長 (cm)</label>
+        <input type="number" step="0.1" name="height" required>
 
-            <div class="form-group">
-                <label for="weight">体重 (kg)</label>
-                <input type="number" step="0.1" name="weight" required>
-            </div>
+        <label>体重 (kg)</label>
+        <input type="number" step="0.1" name="weight" required>
 
-            <div class="form-group">
-                <label for="baby_log">発達記録</label>
-                <textarea name="baby_log" rows="2"></textarea>
-            </div>
+        <label>発達記録</label>
+        <textarea name="baby_log"></textarea>
 
-            <div class="form-group">
-                <label for="comment">コメント</label>
-                <textarea name="comment" rows="2"></textarea>
-            </div>
+        <label>コメント</label>
+        <textarea name="comment"></textarea>
 
-            <button type="submit">登録する</button>
-        </form>
-    </div>
+        <button type="submit">登録する</button>
+    </form>
+</div>
 
-</body>
-</html>
 {% endblock %}
