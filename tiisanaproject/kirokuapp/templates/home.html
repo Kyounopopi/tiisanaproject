@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}ちいさなキロク/ホーム{% endblock %}
+{% block title %}ちいさなキロク / ホーム{% endblock %}
 
-    {% block contents %}
-        <body>
-            <ul>
-                <li>
-                    <a href="{% url 'kirokuapp:home' %}">ホーム</a>
-                </li>
-                <li>
-                    <a href="{% url 'growthapp:growth' %}">成長記録</a>
-                </li>
-                <li>
-                    <a href="{% url 'albumapp:album' %}">アルバム</a>
-                </li>
-                <li>
-                    <a href="{% url 'kirokuapp:home' %}">写真管理</a>
-                </li>
-                <li>
-                    <a href="{% url 'calendarapp:currender' %}">カレンダー</a>
-                </li>
-            </ul>
-        <body>
-    {% endblock %}
+{% block contents %}
+<ul>
+    <li>
+        <a href="{% url 'kirokuapp:home' %}">ホーム</a>
+    </li>
+    <li>
+        <a href="{% url 'growthapp:growth' %}">成長記録</a>
+    </li>
+    <li>
+        <a href="{% url 'albumapp:album_list' %}">アルバム</a>
+    </li>
+    <li>
+        <a href="{% url 'kirokuapp:home' %}">写真管理</a>
+    </li>
+    <li>
+        <a href="{% url 'calendarapp:currender' %}">カレンダー</a>
+    </li>
+</ul>
+{% endblock %}

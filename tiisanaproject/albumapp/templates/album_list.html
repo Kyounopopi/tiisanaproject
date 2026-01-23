@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h1>アルバム一覧</h1>
+
+<a href="{% url 'albumapp:album_create' %}">新しいアルバムを作成</a>
+
+<hr>
+
+{% if albums %}
+    <ul>
+        {% for album in albums %}
+            <li>
+                <a href="{% url 'albumapp:album_detail' album.id %}">
+                    {{ album.name }}
+                </a>
+                （{{ album.photos.count }} 枚）
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>まだアルバムがありません</p>
+{% endif %}
+
+{% endblock %}

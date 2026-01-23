@@ -1,0 +1,21 @@
+<h1>{{ album.name }}</h1>
+
+<a href="{% url 'album_list' %}">← 一覧に戻る</a>
+<a href="{% url 'album_create' %}">＋ アルバム追加</a>
+
+<hr>
+
+{% for photo in album.photos.all %}
+    <img src="{{ photo.image.url }}" width="200">
+
+    {% if photo.is_favorite %}
+        ⭐
+    {% endif %}
+
+    <form method="post" action="{% url 'toggle_favorite' photo.id %}">
+        {% csrf_token %}
+        <button type="submit">お気に入り切替</button>
+    </form>
+{% empty %}
+    <p>写真がまだありません</p>
+{% endfor %}
