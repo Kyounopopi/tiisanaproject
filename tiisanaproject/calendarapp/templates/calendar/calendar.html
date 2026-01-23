@@ -30,7 +30,13 @@
       <div class="photo-card">
 
         <div class="photo-image">
+          {% if record.image %}
           <img src="{{ record.image.url }}" alt="">
+          {% else %}
+          <div class="photo-image empty-image">
+            <span class="no-photo">画像なし</span>
+          </div>
+          {% endif %}
         </div>
 
         <div class="photo-comment">

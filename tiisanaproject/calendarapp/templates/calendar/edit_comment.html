@@ -4,9 +4,13 @@
 <div class="calendar-box">
   <h2>コメント編集</h2>
 
-  <img src="{{ record.image.url }}" class="edit-image">
+  {% if record.image %}
+    <img src="{{ record.image.url }}" class="edit-image" alt="添付画像">
+  {% else %}
+    <p class="no-image">画像は未登録です</p>
+  {% endif %}
 
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="save-btn">保存</button>
