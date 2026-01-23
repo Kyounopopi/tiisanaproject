@@ -22,3 +22,46 @@
   </div>
 
 </div>
+
+<div class="photo-grid">
+
+  {% if records %}
+    {% for record in records %}
+      <div class="photo-card">
+
+        <div class="photo-image">
+          <img src="{{ record.image.url }}" alt="">
+        </div>
+
+        <div class="photo-comment">
+          <a href="{% url 'calendarapp:edit_comment' record.id %}">
+            {{ record.comment|default:"コメントを追加" }}
+          </a>
+        </div>
+
+      </div>
+    {% endfor %}
+
+  {% else %}
+    <!-- 記録が無い日のUI -->
+    <div class="photo-card empty">
+
+      <div class="photo-image empty-image">
+        
+      </div>
+
+      <div class="photo-comment empty-text">
+        この日の記録はありません
+      </div>
+      <a href="{% url 'calendarapp:add_record' %}?year={{ selected_date.year }}&month={{ selected_date.month }}&day={{ selected_date.day }}"
+       class="add-record-button">
+       ＋ 記録を追加
+      </a>
+
+
+
+    </div>
+  {% endif %}
+
+</div>
+

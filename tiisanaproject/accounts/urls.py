@@ -25,8 +25,9 @@ urlpatterns = [
          name='logout'
         ),
     path('account/',
-          views.AccountscreenView.as_view(template_name='accountscreen.html'),
-          name='accountscreen'
+          views.AccountscreenView.as_view(template_name='accounts.html'),
+          name='accounts'
          ),
+    
 
 ]

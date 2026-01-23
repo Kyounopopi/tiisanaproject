@@ -1,0 +1,11 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <h3>アルバム名</h3>
+    {{ album_form.name }}
+
+    <h3>写真（複数選択可）</h3>
+    {{ photo_form.images }}
+
+    <button type="submit">登録</button>
+</form>
