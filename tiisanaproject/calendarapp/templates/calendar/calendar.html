@@ -56,18 +56,15 @@
   {% else %}
     <!-- 記録が無い日のUI -->
     <div class="photo-card empty">
-
-      <div class="photo-image empty-image">
-        
-      </div>
-
+      <div class="photo-image empty-image"></div>
       <div class="photo-comment empty-text">
         この日の記録はありません
       </div>
-      <a href="{% url 'calendarapp:add_record' %}?year={{ selected_date.year }}&month={{ selected_date.month }}&day={{ selected_date.day }}"
-       class="add-record-button">
-       ＋ 記録を追加
-      </a>
+      <div class="photo-comment">
+        <a href="{% url 'calendarapp:add_record' %}?year={{ selected_date.year }}&month={{ selected_date.month }}&day={{ selected_date.day }}">
+          記録を追加
+        </a>
+      </div>
     </div>
   {% endif %}
 
