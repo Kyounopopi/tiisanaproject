@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>成長データの変更</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>日付</label>
+    <input type="date" name="date" value="{{ record.date }}" required>
+
+    <label>発達記録</label>
+    <textarea name="baby_log">{{ record.baby_log }}</textarea>
+
+    <label>コメント</label>
+    <textarea name="comment">{{ record.comment }}</textarea>
+
+    <button type="submit">更新する</button>
+</form>
+
+<a href="{% url 'growthapp:growth' %}">← 戻る</a>
+{% endblock %}
