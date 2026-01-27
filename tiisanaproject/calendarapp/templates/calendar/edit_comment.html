@@ -1,3 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}ちいさなキロク / ホーム{% endblock %}
+
+{% block contents %}
+<ul>
+  <a href="{% url 'kirokuapp:home' %}">ホーム</a>　<a href="{% url 'growthapp:growth' %}">成長記録</a>　<a href="{% url 'albumapp:album_list' %}">アルバム</a>　<a href="{% url 'kirokuapp:home' %}">写真管理</a>　<a href="{% url 'calendarapp:currender' %}">カレンダー</a>
+</ul>
+
 {% load static %}
 <link rel="stylesheet" href="{% static 'calendarapp/calendar.css' %}">
 
@@ -16,3 +25,4 @@
     <button type="submit" class="save-btn">保存</button>
   </form>
 </div>
+{% endblock %}

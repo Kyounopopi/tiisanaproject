@@ -1,3 +1,4 @@
+#views.py
 from datetime import date, timedelta
 import calendar
 from django.shortcuts import render, redirect, get_object_or_404
@@ -75,8 +76,7 @@ def add_record(request):
     else:
         form = DailyRecordForm(instance=record)
 
-    return render(request, 'calendarapp/add_record.html', {
+    return render(request, 'calendar/add_record.html', {  # ← ここを修正
         'form': form,
         'selected_date': selected_date
     })
-    
