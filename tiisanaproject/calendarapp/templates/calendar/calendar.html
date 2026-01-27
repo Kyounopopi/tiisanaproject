@@ -1,3 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}ちいさなキロク / ホーム{% endblock %}
+
+{% block contents %}
+<ul>
+  <a href="{% url 'kirokuapp:home' %}">ホーム</a>　<a href="{% url 'growthapp:growth' %}">成長記録</a>　<a href="{% url 'albumapp:album_list' %}">アルバム</a>　<a href="{% url 'kirokuapp:home' %}">写真管理</a>　<a href="{% url 'calendarapp:currender' %}">カレンダー</a>
+</ul>
+
 
 <div class="calendar-box">
 
@@ -29,16 +38,12 @@
     {% for record in records %}
       <div class="photo-card">
 
-        <div class="photo-image">
-          {% if record.image %}
-          <img src="{{ record.image.url }}" alt="">
-          {% else %}
-          <div class="photo-image empty-image">
-            <span class="no-photo">画像なし</span>
-          </div>
-          {% endif %}
-        </div>
-
+        {% if record.image %}
+        <img src="{{ record.image.url }}" alt="">
+        {% else %}
+        <p>画像なし</p>
+        {% endif %}
+      
         <div class="photo-comment">
           <a href="{% url 'calendarapp:edit_comment' record.id %}">
             {{ record.comment|default:"コメントを追加" }}
@@ -63,11 +68,9 @@
        class="add-record-button">
        ＋ 記録を追加
       </a>
-
-
-
     </div>
   {% endif %}
 
 </div>
 
+{% endblock %}
