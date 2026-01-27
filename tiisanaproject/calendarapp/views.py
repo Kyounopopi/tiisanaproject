@@ -79,3 +79,4 @@ def add_record(request):
         'form': form,
         'selected_date': selected_date
     })
+    
