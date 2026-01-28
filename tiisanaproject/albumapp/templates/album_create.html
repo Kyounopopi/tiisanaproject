@@ -3,7 +3,12 @@
 {% block contents %}
 <h1>アルバム作成</h1>
 
-<form method="post" enctype="multipart/form-data">
+<form
+    method="post"
+    action="{% url 'albumapp:album_create' %}"
+    enctype="multipart/form-data"
+>
+
     {% csrf_token %}
 
     <h3>アルバム名</h3>
