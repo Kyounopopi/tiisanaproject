@@ -1,5 +1,6 @@
 from django import forms
-from .models import Album, Photo
+from .models import Album
+
 
 class AlbumCreateForm(forms.ModelForm):
     class Meta:
@@ -12,15 +13,7 @@ class MultipleFileInput(forms.ClearableFileInput):
 
 
 class PhotoCreateForm(forms.Form):
-    images = forms.ImageField(
-        widget=MultipleFileInput(),
+    images = forms.FileField(
+        widget=MultipleFileInput(attrs={"multiple": True}),
         required=True
     )
-
-
-class MultipleImageField(forms.ImageField):
-    widget = MultipleFileInput
-
-
-class PhotoUploadForm(forms.Form):
-    images = MultipleImageField(required=False)
