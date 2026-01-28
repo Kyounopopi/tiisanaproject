@@ -57,7 +57,7 @@
 
     <nav class="nav-right">
         {% if user.is_authenticated %}
-            <a href="{% url 'accounts:accounts'%}">マイページ</a>
+            <a href="{% url 'accounts:mypages'%}">マイページ</a>
 
             <form method="post" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}
