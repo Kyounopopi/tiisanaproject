@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, TemplateView,ListView
-from .forms import CustomUserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, TemplateView,ListView,DetailView, UpdateView
+from django.views import View
+from .forms import CustomUserCreationForm,AccountUpdateForm
 from django. urls import reverse_lazy
-from .models import Customuser
+from .models import Customuser,Account
 from django.contrib.auth.decorators import login_required
 
 class SignUpView(CreateView):
@@ -40,6 +42,53 @@ class AccountView(ListView):
     queryset = Customuser.objects.filter(username='example')
 
 
+
+class AccountsView(LoginRequiredMixin, View):
+    """"
+    マイページ表示
+    """
+    login_url = '/accounts/login/'
+
+    def get(self, request):
+        try:
+            account = Account.objects.get(user=request.user)
+        except Account.DoesNotExist:
+            account = Account.objects.create(user=request.user)
+        context = {
+            'account':account,
+            'user':request.user
+        }
+        return render(request,'mypage.html',context)
+
+class ProfileEditView(LoginRequiredMixin, View):
+    """
+    プロフィール編集
+    """
+    login_url = '/accounts/login/'
+    
+    def get(self, request):
+        # Accountプロフィールを取得または作成
+        try:
+            account = Account.objects.get(user=request.user)
+        except Account.DoesNotExist:
+            account = Account.objects.create(user=request.user)
+        
+        form = AccountUpdateForm(instance=account)
+        return render(request, 'profile_edit.html', {'form': form})
+    
+    def post(self, request):
+        # Accountプロフィールを取得または作成
+        try:
+            account = Account.objects.get(user=request.user)
+        except Account.DoesNotExist:
+            account = Account.objects.create(user=request.user)
+        
+        form = AccountUpdateForm(request.POST, request.FILES, instance=account)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:mypages')
+        
+        return render(request, 'profile_edit.html', {'form': form})
 
 @login_required
 def account_view(request):
