@@ -66,3 +66,6 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
     model = Album
     template_name = "album_detail.html"
     context_object_name = "album"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+

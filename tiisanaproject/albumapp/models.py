@@ -8,6 +8,11 @@ class Album(models.Model):
         related_name="albums"
     )
     name = models.CharField(max_length=100)
+    slug = models.SlugField(
+        max_length=120,
+        unique=True,
+        blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
