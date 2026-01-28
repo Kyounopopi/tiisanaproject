@@ -7,7 +7,7 @@
     {% csrf_token %}
 
     <label>日付</label>
-    <input type="date" name="date" value="{{ record.date }}" required>
+    <input type="date" name="date" value="{{ record.date|date:'Y-m-d' }}" required>
 
     <label>発達記録</label>
     <textarea name="baby_log">{{ record.baby_log }}</textarea>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>登録が完了しました 🎉</h2>
+
+<p>成長データの登録が正常に完了しました。</p>
+
+<a href="{% url 'growthapp:growth' %}">
+    一覧に戻る
+</a>
+{% endblock %}

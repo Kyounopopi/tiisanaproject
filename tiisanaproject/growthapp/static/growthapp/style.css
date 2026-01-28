@@ -1,22 +1,89 @@
-/* 変更・削除を横並びにする */
-.action-buttons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+/* =========================
+   共通（テーブル）※変更しない
+   ========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-/* formが縦に広がるのを防ぐ */
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+/* =========================
+   ★ 一覧データだけ中央寄せ ★
+   ========================= */
+
+tbody td {
+    text-align: center;
+}
+
+/* =========================
+   登録フォーム（横並び・はみ出し解消）
+   ※ ヘッダーに影響させない
+   ========================= */
+
+.register-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.register-form label {
+    font-weight: bold;
+}
+
+.register-form input[type="date"],
+.register-form textarea,
+.register-form button {
+    height: 32px;
+    padding: 4px 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.register-form textarea {
+    width: 200px;
+    resize: none;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.register-form button {
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+/* =========================
+   変更・削除ボタン横並び
+   ========================= */
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
 .action-buttons form {
     margin: 0;
 }
 
-/* 見た目ちょっと整える（任意） */
 .action-buttons a {
     padding: 4px 10px;
     border: 1px solid #888;
     border-radius: 4px;
     text-decoration: none;
     color: #333;
+    background-color: #f5f5f5;
 }
 
 .action-buttons button {
