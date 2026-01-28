@@ -1,60 +1,70 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block contents %}
 
-<h1>赤ちゃんの成長管理</h1>
+<link rel="stylesheet" href="{% static 'growthapp/style.css' %}">
 
-<!-- 成長データ一覧表示 -->
+<!-- 一覧＋変更＋削除 -->
 <table>
     <thead>
         <tr>
             <th>日付</th>
-            <th>身長 (cm)</th>
-            <th>体重 (kg)</th>
             <th>発達記録</th>
             <th>コメント</th>
+            <th>操作</th>
         </tr>
     </thead>
     <tbody>
         {% for record in growth %}
         <tr>
             <td>{{ record.date }}</td>
-            <td>{{ record.height }}</td>
-            <td>{{ record.weight }}</td>
             <td>{{ record.baby_log }}</td>
             <td>{{ record.comment }}</td>
+            <td>
+
+                <div class="action-buttons">
+                    <a href="{% url 'growthapp:growth_update' record.id %}">
+                        変更
+                    </a>
+
+                    <form method="POST"
+                          action="{% url 'growthapp:growth_delete' record.id %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                                onclick="return confirm('本当に削除しますか？');">
+                            削除
+                        </button>
+                    </form>
+                </div>
+            </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5">データがまだ登録されていません。</td>
+            <td colspan="6">データがまだ登録されていません。</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<div class="form-container">
-    <h2>成長データの追加</h2>
+<hr>
 
-    <form method="POST">
-        {% csrf_token %}
+<!-- 🔽 登録フォーム -->
+<h2>成長データの登録</h2>
 
-        <label>日付</label>
-        <input type="date" name="date" required>
+<form method="POST">
+    {% csrf_token %}
 
-        <label>身長 (cm)</label>
-        <input type="number" step="0.1" name="height" required>
+    <label>日付</label>
+    <input type="date" name="date" required>
 
-        <label>体重 (kg)</label>
-        <input type="number" step="0.1" name="weight" required>
+    <label>発達記録</label>
+    <textarea name="baby_log"></textarea>
 
-        <label>発達記録</label>
-        <textarea name="baby_log"></textarea>
+    <label>コメント</label>
+    <textarea name="comment"></textarea>
 
-        <label>コメント</label>
-        <textarea name="comment"></textarea>
-
-        <button type="submit">登録する</button>
-    </form>
-</div>
-
+    <button type="submit">登録する</button>
+</form>
 {% endblock %}
