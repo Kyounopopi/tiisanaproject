@@ -1,6 +1,12 @@
 from django.db import models
+from django.conf import settings
 
 class Album(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="albums"
+    )
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -11,12 +17,11 @@ class Album(models.Model):
 class Photo(models.Model):
     album = models.ForeignKey(
         Album,
-        on_delete=models.CASCADE,
-        related_name="photos"
+        related_name="photos",
+        on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="photos/")
-    is_favorite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.album.name} - {self.id}"
+        return f"{self.album.name} の写真"

@@ -2,6 +2,7 @@
 from datetime import date, timedelta
 import calendar
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from .models import DailyRecord
 from .forms import CommentForm, DailyRecordForm
 
@@ -51,7 +52,9 @@ def edit_comment(request, record_id):
         form = CommentForm(request.POST, instance=record)
         if form.is_valid():
             form.save()
-            return redirect("calendar")  # カレンダー画面に戻る
+            # 編集した記録の日付でカレンダーにリダイレクト
+            url = reverse('calendarapp:currender') + f'?year={record.date.year}&month={record.date.month}&day={record.date.day}'
+            return redirect(url)
     else:
         form = CommentForm(instance=record)
 
@@ -72,11 +75,12 @@ def add_record(request):
         form = DailyRecordForm(request.POST, request.FILES, instance=record)
         if form.is_valid():
             form.save()
-            return redirect(f"/currender/?year={year}&month={month}&day={day}")
+            url = reverse('calendarapp:currender') + f'?year={year}&month={month}&day={day}'
+            return redirect(url)
     else:
         form = DailyRecordForm(instance=record)
 
-    return render(request, 'calendar/add_record.html', {  # ← ここを修正
+    return render(request, 'calendar/add_record.html', {
         'form': form,
         'selected_date': selected_date
     })

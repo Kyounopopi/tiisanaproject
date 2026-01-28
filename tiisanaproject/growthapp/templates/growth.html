@@ -1,12 +1,31 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block contents %}
 
 <link rel="stylesheet" href="{% static 'growthapp/style.css' %}">
 
-<!-- 一覧＋変更＋削除 -->
+<!-- 🔽 成長データの登録（上に表示） -->
+<h2>成長データの登録</h2>
+
+<form method="POST" class="register-form">
+    {% csrf_token %}
+
+    <label>日付</label>
+    <input type="date" name="date" required>
+
+    <label>発達記録</label>
+    <textarea name="baby_log"></textarea>
+
+    <label>コメント</label>
+    <textarea name="comment"></textarea>
+
+    <button type="submit">登録する</button>
+</form>
+
+<hr>
+
+<!-- 🔽 一覧＋変更＋削除（下に表示） -->
 <table>
     <thead>
         <tr>
@@ -23,7 +42,6 @@
             <td>{{ record.baby_log }}</td>
             <td>{{ record.comment }}</td>
             <td>
-
                 <div class="action-buttons">
                     <a href="{% url 'growthapp:growth_update' record.id %}">
                         変更
@@ -42,29 +60,10 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="6">データがまだ登録されていません。</td>
+            <td colspan="4">データがまだ登録されていません。</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<hr>
-
-<!-- 🔽 登録フォーム -->
-<h2>成長データの登録</h2>
-
-<form method="POST">
-    {% csrf_token %}
-
-    <label>日付</label>
-    <input type="date" name="date" required>
-
-    <label>発達記録</label>
-    <textarea name="baby_log"></textarea>
-
-    <label>コメント</label>
-    <textarea name="comment"></textarea>
-
-    <button type="submit">登録する</button>
-</form>
 {% endblock %}

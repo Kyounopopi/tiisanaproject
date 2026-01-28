@@ -2,6 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import GrowthRecord
 
+
 class GrowthView(View):
 
     def get(self, request):
@@ -24,8 +25,9 @@ class GrowthView(View):
             comment=comment
         )
 
-        # 登録後リダイレクト（更新ボタンで重複登録を防ぐ）
-        return redirect("/growth")
+        # ✅ 登録完了画面へリダイレクト
+        return redirect("growthapp:growth_complete")
+
 
 class GrowthUpdateView(View):
 
@@ -45,11 +47,24 @@ class GrowthUpdateView(View):
         record.comment = request.POST.get("comment")
 
         record.save()
-        return redirect("/growth")
+        return redirect("growthapp:growth_update_complete")
+
 
 class GrowthDeleteView(View):
 
     def post(self, request, pk):
         record = get_object_or_404(GrowthRecord, pk=pk)
         record.delete()
-        return redirect("/growth")
+        return redirect("growthapp:growth_delete_complete")
+
+class GrowthCompleteView(View):
+    def get(self, request):
+        return render(request, "growth_complete.html")
+
+class GrowthUpdateCompleteView(View):
+    def get(self, request):
+        return render(request, "growth_update_complete.html")
+
+class GrowthDeleteCompleteView(View):
+    def get(self, request):
+        return render(request, "growth_delete_complete.html")

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>削除が完了しました 🎉</h2>
+
+<p>成長データの削除が正常に保存されました。</p>
+
+<a href="{% url 'growthapp:growth' %}">
+    一覧へ戻る
+</a>
+{% endblock %}
