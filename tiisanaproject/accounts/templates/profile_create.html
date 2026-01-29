@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}プロフィール追加 - ちいさなキロク{% endblock %}
+
+{% block contents %}
+<style>
+    .profile-add-container {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .profile-add-container h2 {
+        color: #5c4b3b;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        color: #5c4b3b;
+        margin-bottom: 8px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0d3b8;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #f9c74f;
+    }
+    
+    .form-group input[type="color"] {
+        height: 50px;
+        cursor: pointer;
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    
+    .btn-submit {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #f9c74f 0%, #f3a712 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: transform 0.2s;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(249, 199, 79, 0.4);
+    }
+    
+    .help-text {
+        font-size: 12px;
+        color: #8b7355;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="profile-add-container">
+    <h2>プロフィール追加</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+                {% if field.field.required %}<span style="color: red;">*</span>{% endif %}
+            </label>
+            {{ field }}
+            
+            {% if field.help_text %}
+                <div class="help-text">{{ field.help_text }}</div>
+            {% endif %}
+            
+            {% if field.errors %}
+                <div class="error-message">{{ field.errors.0 }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn-submit">保存</button>
+    </form>
+</div>
+{% endblock %}

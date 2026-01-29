@@ -5,99 +5,79 @@
 
 {% block contents %}
 
+<div class="profile-switcher">
+  <h3>プロフィール選択</h3>
 
-<div class="mypage-container">
-    <div class="profile-header">
-        <div class="profile-icon" style="background-color: {{ account.icon_color }};">
-            {% if account.profile_image %}
-                <img src="{{ account.profile_image.url }}" alt="プロフィール画像">
+  <div class="profile-icons">
+    {% for profile in profiles %}
+      <a href="{% url 'accounts:profile_select' profile.id %}">
+        <div class="profile-icon {% if active_profile and profile.id == active_profile.id %}active{% endif %}">
+          {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}">
+          {% else %}
+            <div class="icon-circle" style="background-color: {{ profile.icon_color }}">
+              {{ profile.display_name|slice:":1" }}
+            </div>
+          {% endif %}
+          <p>{{ profile.display_name }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% if active_profile %}
+<div class="active-profile">
+
+    <h2>{{ active_profile.display_name }}</h2>
+
+    <div class="info-item">
+        <label>性別</label>
+        <div class="value">{{ active_profile.get_gender_display }}</div>
+    </div>
+
+    <div class="info-item">
+        <label>生年月日</label>
+        <div class="value">
+            {% if active_profile.birth_date %}
+                {{ active_profile.birth_date|date:"Y年m月d日" }}
             {% else %}
-                {{ user.username|first|upper }}
-            {% endif %}
-        </div>
-        
-        <div class="profile-info">
-            <h2>{{ user.username }}</h2>
-            <p>{{ user.email }}</p>
-            {% if user.first_name or user.last_name %}
-                <p>{{ user.last_name }} {{ user.first_name }}</p>
+                未設定
             {% endif %}
         </div>
     </div>
-    
-    <div class="info-section">
-        <h3>基本情報</h3>
-        <div class="info-grid">
-            <div class="info-item">
-                <label>ユーザー名</label>
-                <div class="value">{{ user.username }}</div>
-            </div>
-            
-            <div class="info-item">
-                <label>メールアドレス</label>
-                <div class="value">{{ user.email }}</div>
-            </div>
-            
-            <div class="info-item">
-                <label>性別</label>
-                <div class="value">{{ account.get_gender_display }}</div>
-            </div>
-            
-            <div class="info-item">
-                <label>生年月日</label>
-                <div class="value">
-                    {% if account.birth_date %}
-                        {{ account.birth_date|date:"Y年m月d日" }}
-                    {% else %}
-                        未設定
-                    {% endif %}
-                </div>
-            </div>
-            
-            {% if account.birth_date %}
-            <div class="info-item">
-                <label>年齢</label>
-                <div class="value">
-                    {% if account.get_age %}
-                        {{ account.get_age }}歳
-                    {% else %}
-                        -
-                    {% endif %}
-                </div>
-            </div>
+
+    <div class="info-item">
+        <label>年齢</label>
+        <div class="value">
+            {% if active_profile.get_age %}
+                {{ active_profile.get_age }}歳
+            {% else %}
+                -
             {% endif %}
-            
-            <div class="info-item">
-                <label>アイコンカラー</label>
-                <div class="value">
-                    <span style="display: inline-block; width: 30px; height: 30px; background-color: {{ account.icon_color }}; border-radius: 5px; vertical-align: middle; border: 2px solid #ddd;"></span>
-                    {{ account.icon_color }}
-                </div>
-            </div>
         </div>
     </div>
-    
-    <div class="info-section">
-        <h3>アカウント情報</h3>
-        <div class="info-grid">
-            <div class="info-item">
-                <label>登録日</label>
-                <div class="value">{{ user.date_joined|date:"Y年m月d日" }}</div>
-            </div>
-            
-            <div class="info-item">
-                <label>最終ログイン</label>
-                <div class="value">
-                    {% if user.last_login %}
-                        {{ user.last_login|date:"Y年m月d日 H:i" }}
-                    {% else %}
-                        未ログイン
-                    {% endif %}
-                </div>
-            </div>
+
+    <div class="info-item">
+        <label>アイコンカラー</label>
+        <div class="value">
+            <span style="
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background-color: {{ active_profile.icon_color }};
+                border-radius: 5px;
+                vertical-align: middle;
+                border: 2px solid #ddd;
+            "></span>
+            {{ active_profile.icon_color }}
         </div>
     </div>
-    
+
+</div>
+{% endif %}
+
     <a href="{% url 'accounts:profile_edit' %}" class="edit-button">プロフィールを編集</a>
+    <a href="{% url 'accounts:profile_create' %}" class="edit-button">プロフィールの追加</a>
 </div>
 {% endblock %}
