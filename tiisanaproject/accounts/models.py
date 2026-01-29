@@ -1,3 +1,5 @@
+
+from django.conf import settings
 from django.db import models
 
 from django.contrib.auth.models import AbstractUser
@@ -66,8 +68,6 @@ class Account(models.Model):
         """ユーザー情報を辞書形式で取得"""
         return{
             'id':self.id,
-            'username':self.username,
-            'email':self.email,
             'gender':self.get_gender_display(),
             'birth_date':self.birth_date,
             'age':self.get_age(),
@@ -97,13 +97,26 @@ class Account(models.Model):
         """性別を日本語で取得"""
         return self.get_gender_display()
 
-class User(models.Model):
-    # アカウントアイコン
-    user = models.OneToOneField(
+
+
+
+class UserProfile(models.Model):
+    """
+    ログインユーザーに紐づく複数人のプロフィール
+    """
+
+    owner = models.ForeignKey(
         Customuser,
         on_delete=models.CASCADE,
-        related_name='アイコン'
+        related_name="user_profiles",
+        verbose_name="所有ユーザー"
     )
+
+    display_name = models.CharField(
+        max_length=50,
+        verbose_name="表示名"
+    ) 
+
 
     GENDER_CHOICES = [
         ('male','男性'),
@@ -112,15 +125,12 @@ class User(models.Model):
         ('not_specified','未設定'),
     ]
 
-
     gender = models.CharField(
         max_length=20,
         choices=GENDER_CHOICES,
         default='not_specified',
-        verbose_name='生年月日'
+        verbose_name='性別'
     )
-
-
 
     birth_date = models.DateField(
         blank=True,
@@ -128,48 +138,39 @@ class User(models.Model):
         verbose_name='生年月日'
     )
 
-    icon = models.ImageField(
-        upload_to='user_icons/',
+    profile_image = models.ImageField(
+        upload_to='multi_profiles',
         blank=True,
         null=True,
-        verbose_name='アイコン画像'
-    ) 
+        verbose_name='プロフィール画像'
+    )
+
+    icon_color = models.CharField(
+        max_length=7,
+        default='#667eea',
+        verbose_name='アイコンカラー'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'ユーザープロフィール'
+        verbose_name_plural='ユーザープロフィール'
 
 
-    def get_user_info(self):
-        return{
-            'id':self.id,
-            'username':self.user.username,
-            'email':self.user.email,
-            'gender':self.get_gender_display(),
-            'birth_date':self.birth_date,
-            'age':self.get_age(),
-        }
+    def __str__(self):
+        return f"{self.display_name}({self.owner.username})"
     
     def get_age(self):
         if not self.birth_date:
             return None
-        
         today = date.today()
-        age = today.year -self.birth_date.year
-
-        if(today.month, today.day)< (self.birth_date.month,self.birth_date.day):
-            age -= 1
-
+        age = today.year - self.birth_date.year
+        if(today.month, today.day)<(self.birth_date.month, self.birth_date.day):
+            age-= 1
         return age
     
     def get_icon_url(self):
-        if self.icon:
-            return self.icon.url
-        else:
-            return '/static/images/default_icon.png'
-
-    def get_gender_japanese(self):
-        return self.get_gender_display()
-
-    def __str__(self):
-        return self.user.username
-    
-    class Meta:
-        verbose_name = 'ユーザー'
-        verbose_name_plural = 'ユーザー'
+        if self.profile_image:
+            return self.profile_image.url
+        return'/static/images/default_icon.png'

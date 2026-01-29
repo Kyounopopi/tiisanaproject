@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import Account
+from .models import Account,UserProfile
 
 User = get_user_model()
 
@@ -139,3 +139,31 @@ class AccountUpdateForm(forms.ModelForm):
                 'type': 'color'
             })
         }
+
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['display_name','gender','birth_date','icon_color','profile_image']
+        widgets = {
+            'display_name': forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':'表示名'
+            }),
+            'gender': forms.Select(attrs={'class':'form-control'}),
+            'birth_date': forms.DateInput(attrs={
+                'type':'date',
+                'class':'form-control'
+            }),
+            'icon_color': forms.TextInput(attrs={
+                'type': 'color',
+                'class':'form-control'
+            }),
+            'profile_image': forms.FileInput(attrs={
+                'class':'form-control'
+            }),
+        }
+
+
+ 
