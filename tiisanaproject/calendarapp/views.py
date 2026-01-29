@@ -49,7 +49,8 @@ def edit_comment(request, record_id):
     record = get_object_or_404(DailyRecord, id=record_id)
 
     if request.method == "POST":
-        form = CommentForm(request.POST, instance=record)
+        # request.FILESを追加することで画像がアップロードされる
+        form = CommentForm(request.POST, request.FILES, instance=record)
         if form.is_valid():
             form.save()
             # 編集した記録の日付でカレンダーにリダイレクト

@@ -24,10 +24,16 @@ urlpatterns = [
          auth_views.LogoutView.as_view(template_name='logout.html'),
          name='logout'
         ),
-    path('account/',
-          views.AccountscreenView.as_view(template_name='accounts.html'),
-          name='accounts'
-         ),
+   
+    path('mypage/',
+          views.AccountsView.as_view(),
+          name="mypages"
+          ),
+
+    path('mypage/edit/',
+          views.ProfileEditView.as_view(),
+          name="profile_edit"
+          ),
     
 
 ]

@@ -60,7 +60,7 @@ class Account(models.Model):
         verbose_name_plural = 'アカウント'
 
     def __str__(self):
-        return self.username
+        return f"{self.user.username}のプロフィール"
     
     def get_user_info(self):
         """ユーザー情報を辞書形式で取得"""

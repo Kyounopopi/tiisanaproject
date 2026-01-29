@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}プロフィール編集 - ちいさなキロク{% endblock %}
+
+{% block contents %}
+
+
+<div class="edit-container">
+    <h2>プロフィール編集</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div style="color: red; font-size: 14px; margin-top: 5px;">
+                    {{ field.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn-submit">保存する</button>
+        <a href="{% url 'accounts:mypages' %}" class="btn-cancel">キャンセル</a>
+    </form>
+</div>
+{% endblock %}
