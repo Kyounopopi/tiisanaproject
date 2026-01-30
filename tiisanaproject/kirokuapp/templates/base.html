@@ -72,7 +72,7 @@
 </header>
 {% endblock %}
 
-    {% block contents %}
+{% block contents %}
 <ul>
     <li>
         <a href="{% url 'accounts:login' %}">ホーム</a>
@@ -90,6 +90,7 @@
         <a href="{% url 'accounts:login' %}">カレンダー</a>
     </li>
 </ul>
+{% endblock %}
 </div>
 
 </body>
