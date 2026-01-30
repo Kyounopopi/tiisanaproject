@@ -13,10 +13,15 @@ def calendar_view(request):
     month = int(request.GET.get("month", today.month))
     day = request.GET.get("day")
 
+    # dayが指定されていない場合は今日の日付を使用
     if day:
         selected_date = date(year, month, int(day))
     else:
-        selected_date = date(year, month, 1)
+        # 現在の月を表示している場合は今日、それ以外は1日
+        if year == today.year and month == today.month:
+            selected_date = today
+        else:
+            selected_date = date(year, month, 1)
 
     # 月の日数
     _, last_day = calendar.monthrange(year, month)

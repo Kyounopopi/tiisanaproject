@@ -256,3 +256,19 @@ body {
 body {
   background-color: #f5f5f5 !important;
 }
+
+/* 変更前: 2カラムグリッド */
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* 変更後: 1カラムレイアウト */
+.records-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
