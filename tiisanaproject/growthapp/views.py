@@ -15,12 +15,14 @@ class GrowthView(View):
     def post(self, request):
         """成長データを登録"""
         date = request.POST.get("date")
+        name = request.POST.get("name")  
         baby_log = request.POST.get("baby_log")
         comment = request.POST.get("comment")
 
         # DB保存
         GrowthRecord.objects.create(
             date=date,
+            name=name,
             baby_log=baby_log,
             comment=comment
         )
@@ -43,6 +45,7 @@ class GrowthUpdateView(View):
         record = GrowthRecord.objects.get(pk=pk)
 
         record.date = request.POST.get("date")
+        record.name = request.POST.get("name")
         record.baby_log = request.POST.get("baby_log")
         record.comment = request.POST.get("comment")
 
