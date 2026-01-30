@@ -10,12 +10,11 @@
 {% if albums %}
     <ul>
         {% for album in albums %}
-            <li>
-                <a href="{% url 'albumapp:album_detail' album.slug %}">
-                    {{ album.name }}
-                </a>
-                （{{ album.photos.count }} 枚）
-            </li>
+        <li>
+            <a href="{% url 'albumapp:album_detail' album.slug %}">
+                {{ album.name }}
+            </a>
+        </li>
         {% endfor %}
     </ul>
 {% else %}

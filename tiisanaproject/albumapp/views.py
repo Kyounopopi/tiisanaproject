@@ -1,49 +1,36 @@
 from django.views import View
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db import transaction
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Album, Photo
-from .forms import AlbumCreateForm, PhotoCreateForm
+from .forms import AlbumCreateForm
 
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class AlbumCreateView(LoginRequiredMixin, View):
-    def get(self, request):
-        album_form = AlbumCreateForm()
-        return render(
-            request,
-            "album_create.html",
-            {"album_form": album_form}
-        )
+class AlbumCreateView(LoginRequiredMixin, CreateView):
+    model = Album
+    fields = ["name"]
+    template_name = "album_create.html"
+    success_url = "/album/"
 
-    def post(self, request):
-        album_form = AlbumCreateForm(request.POST)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-        if album_form.is_valid():
-            album = album_form.save(commit=False)
-            album.user = request.user
-            album.save()
+class PhotoCreateView(LoginRequiredMixin, View):
+    def post(self, request, slug):
+        album = get_object_or_404(Album, slug=slug, user=request.user)
 
-            images = request.FILES.getlist("images")
-            for image in images:
-                Photo.objects.create(
-                    album=album,
-                    image=image
-                )
+        images = request.FILES.getlist("images")
+        for image in images:
+            Photo.objects.create(album=album, image=image)
 
-            return redirect("albumapp:album_list")
-
-        return render(
-            request,
-            "album_create.html",
-            {"album_form": album_form}
-        )
-
+        return redirect("albumapp:album_detail", slug=album.slug)
 
 class ToggleFavoriteView(View):
     def post(self, request, photo_id):
@@ -68,4 +55,5 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "album"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
 
