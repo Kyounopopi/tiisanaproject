@@ -1,0 +1,12 @@
+<p><a href="{% url 'photoapp:list' %}">← 一覧へ戻る</a></p>
+
+<h1>写真</h1>
+
+<div class="wrap">
+  <img src="{{ photo.image.url }}" alt="photo">
+</div>
+
+<style>
+  .wrap { max-width: 900px; }
+  img { width: 100%; height: auto; border-radius: 12px; border: 1px solid #ddd; }
+</style>
