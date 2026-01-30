@@ -26,7 +26,7 @@ urlpatterns = [
         ),
    
     path('mypage/',
-          views.AccountsView.as_view(),
+          views.MyPageView.as_view(),
           name="mypages"
           ),
 
@@ -34,6 +34,12 @@ urlpatterns = [
           views.ProfileEditView.as_view(),
           name="profile_edit"
           ),
-    
 
+    path('mypage/create/',
+         views.ProfileCreateView.as_view(),
+         name='profile_create'),
+   
+    path('profile/select<int:profile_id>/',
+         views.SelectProfileView.as_view(),
+         name='profile_select'),
 ]

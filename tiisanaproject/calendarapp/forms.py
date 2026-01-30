@@ -10,13 +10,12 @@ class DayEntryForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = DailyRecord
-        fields = ["comment"]
+        fields = ['image', 'comment']  # imageとcommentの両方を含める
         widgets = {
-            "comment": forms.Textarea(attrs={
-                "rows": 3,
-                "class": "comment-textarea",
-                "placeholder": "コメントを入力"
-            })
+            'comment': forms.Textarea(attrs={
+                'placeholder': 'コメントを入力',
+                'rows': 4
+            }),
         }
 
 class DailyRecordForm(forms.ModelForm):
@@ -25,7 +24,7 @@ class DailyRecordForm(forms.ModelForm):
         fields = ['image', 'comment']
         widgets = {
             'comment': forms.Textarea(attrs={
-                'rows': 3,
-                'placeholder': 'コメントを書く'
-            })
+                'placeholder': 'コメントを書く',
+                'rows': 3
+            }),
         }
