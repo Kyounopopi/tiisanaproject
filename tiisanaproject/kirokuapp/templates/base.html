@@ -72,8 +72,24 @@
 </header>
 {% endblock %}
 
-<div class="container">
-    {% block contents %}{% endblock %}
+    {% block contents %}
+<ul>
+    <li>
+        <a href="{% url 'accounts:login' %}">ホーム</a>
+    </li>
+    <li>
+        <a href="{% url 'accounts:login' %}">成長記録</a>
+    </li>
+    <li>
+        <a href="{% url 'accounts:login' %}">アルバム</a>
+    </li>
+    <li>
+        <a href="{% url 'accounts:login' %}">写真管理</a>
+    </li>
+    <li>
+        <a href="{% url 'accounts:login' %}">カレンダー</a>
+    </li>
+</ul>
 </div>
 
 </body>
