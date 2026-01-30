@@ -1,10 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView
 from .models import Photo
 
-def photo_list(request):
-    photos = Photo.objects.order_by("-id") 
-    return render(request, "photoapp/photo_list.html", {"photos": photos})
+class PhotoListView(ListView):
+    model = Photo
+    template_name = "photoapp/photo_list.html"
+    context_object_name = "photos"
+    ordering = ["-id"]
 
-def photo_detail(request, photo_id):
-    photo = get_object_or_404(Photo, id=photo_id)
-    return render(request, "photoapp/photo_detail.html", {"photo": photo})
+
+class PhotoDetailView(DetailView):
+    model = Photo
+    template_name = "photoapp/photo_detail.html"
+    context_object_name = "photo"
