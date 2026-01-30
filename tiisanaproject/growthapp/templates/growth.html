@@ -14,22 +14,26 @@
     <label>日付</label>
     <input type="date" name="date" required>
 
+    <label>名前</label>
+    <input type="text" name="name" required>
+
     <label>発達記録</label>
     <textarea name="baby_log"></textarea>
 
     <label>コメント</label>
     <textarea name="comment"></textarea>
 
-    <button type="submit">登録する</button>
+    <button type="submit">登録</button>
 </form>
 
 <hr>
 
 <!-- 🔽 一覧＋変更＋削除（下に表示） -->
-<table>
+<table class="common-table">
     <thead>
         <tr>
             <th>日付</th>
+            <th>名前</th>
             <th>発達記録</th>
             <th>コメント</th>
             <th>操作</th>
@@ -39,13 +43,12 @@
         {% for record in growth %}
         <tr>
             <td>{{ record.date }}</td>
+            <td>{{ record.name }}</td>
             <td>{{ record.baby_log }}</td>
             <td>{{ record.comment }}</td>
             <td>
                 <div class="action-buttons">
-                    <a href="{% url 'growthapp:growth_update' record.id %}">
-                        変更
-                    </a>
+                    <a href="{% url 'growthapp:growth_update' record.id %}">変更</a>
 
                     <form method="POST"
                           action="{% url 'growthapp:growth_delete' record.id %}">
@@ -60,7 +63,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4">データがまだ登録されていません。</td>
+            <td colspan="5">データがまだ登録されていません。</td>
         </tr>
         {% endfor %}
     </tbody>

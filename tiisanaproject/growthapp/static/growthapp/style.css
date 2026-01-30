@@ -7,7 +7,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     vertical-align: middle;
@@ -18,7 +19,7 @@ th {
 }
 
 /* =========================
-   ★ 一覧データだけ中央寄せ ★
+   一覧データだけ中央寄せ
    ========================= */
 
 tbody td {
@@ -26,8 +27,7 @@ tbody td {
 }
 
 /* =========================
-   登録フォーム（横並び・はみ出し解消）
-   ※ ヘッダーに影響させない
+   登録・変更フォーム（横並び・統一）
    ========================= */
 
 .register-form {
@@ -35,13 +35,18 @@ tbody td {
     align-items: center;
     gap: 10px;
     margin-bottom: 30px;
+    flex-wrap: nowrap;          /* 折り返し防止 */
 }
 
+/* label */
 .register-form label {
     font-weight: bold;
+    white-space: nowrap;        /* ラベル改行防止 */
 }
 
+/* 入力欄・ボタン 共通設定 */
 .register-form input[type="date"],
+.register-form input[type="text"],
 .register-form textarea,
 .register-form button {
     height: 32px;
@@ -50,20 +55,30 @@ tbody td {
     box-sizing: border-box;
 }
 
+/* 名前入力 */
+.register-form input[type="text"] {
+    width: 120px;
+}
+
+/* textarea を 1行入力風に */
 .register-form textarea {
     width: 200px;
     resize: none;
     overflow: hidden;
     line-height: 1.4;
+    white-space: nowrap;        /* 改行防止 */
 }
 
+/* 登録・更新ボタン */
 .register-form button {
     padding: 0 12px;
     cursor: pointer;
+    white-space: nowrap;        /* 文字の縦並び防止 */
+    align-self: center;         /* 高さズレ防止 */
 }
 
 /* =========================
-   変更・削除ボタン横並び
+   変更・削除ボタン（一覧用）
    ========================= */
 
 .action-buttons {

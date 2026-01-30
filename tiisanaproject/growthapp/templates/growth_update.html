@@ -1,13 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block contents %}
+
+<link rel="stylesheet" href="{% static 'growthapp/style.css' %}">
+
 <h2>成長データの変更</h2>
 
-<form method="POST">
+<form method="POST" class="register-form">
     {% csrf_token %}
 
     <label>日付</label>
-    <input type="date" name="date" value="{{ record.date|date:'Y-m-d' }}" required>
+    <input type="date"
+           name="date"
+           value="{{ record.date|date:'Y-m-d' }}"
+           required>
+
+    <label>名前</label>
+    <input type="text"
+           name="name"
+           value="{{ record.name }}"
+           required>
 
     <label>発達記録</label>
     <textarea name="baby_log">{{ record.baby_log }}</textarea>
@@ -15,8 +28,11 @@
     <label>コメント</label>
     <textarea name="comment">{{ record.comment }}</textarea>
 
-    <button type="submit">更新する</button>
+    <button type="submit">更新</button>
 </form>
 
-<a href="{% url 'growthapp:growth' %}">← 戻る</a>
+<a href="{% url 'growthapp:growth' %}" style="display:inline-block; margin-top:10px;">
+    ← 戻る
+</a>
+
 {% endblock %}
