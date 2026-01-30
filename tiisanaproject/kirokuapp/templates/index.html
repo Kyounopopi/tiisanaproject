@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}ちいさなキロク{% endblock %}
 
-        {% block contents %}
+{% block contents %}
 
-        {% endblock %}
+<img src="{% static 'img/seityou.png' %}"
+     alt="ちいさなキロク" width="800">
+
+{% endblock %}
