@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('growthapp.urls')),
     path('', include(('calendarapp.urls', 'calendarapp'), namespace='calendarapp')),
+    path('', include(('photoapp.urls', 'photoapp'), namespace='photoapp')),
     path('', include('albumapp.urls')),
 ]
 

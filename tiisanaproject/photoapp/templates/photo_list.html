@@ -1,13 +1,15 @@
+{% extends "base.html" %}
+
+{% block contents %}
 <h1>写真一覧</h1>
 
-{% if photos %}
+{% if photo_list %}
   <div class="grid">
-    {% for p in photos %}
-      <a class="card" href="{% url 'photoapp:detail' p.id %}">
+    {% for p in photo_list %}
+      <a class="card" href="{% url 'photoapp:photo_detail' p.id %}">
         <img src="{{ p.image.url }}" alt="photo">
       </a>
     {% endfor %}
-
   </div>
 {% else %}
   <p>写真がありません</p>
@@ -22,3 +24,4 @@
   .card { display:block; border:1px solid #ddd; border-radius:10px; overflow:hidden; }
   .card img { width:100%; height:140px; object-fit:cover; display:block; }
 </style>
+{% endblock %}
