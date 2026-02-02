@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, TemplateView,ListView,DetailView, UpdateView
 from django.views import View
@@ -142,7 +142,7 @@ class ProfileCreateView(LoginRequiredMixin, View):
             profile = form.save(commit=False)
             profile.owner = request.user
             profile.save()
-            return redirect('/mypage/')
+            return redirect('accounts:mypages')
         
         return render(request, self.template_name, {'form': form})
 
@@ -185,7 +185,59 @@ class SelectProfileView(LoginRequiredMixin, View):
         # セッションに選択中プロフィールを保存
         request.session['active_profile_id'] = profile.id
 
-        return redirect('accounts:mypage')
+        return redirect('accounts:mypages')
+    
+
+
+class ActivProfileUpdateView(LoginRequiredMixin, View):
+    login_url='/accounts/login/'
+    template_name = 'profile_edit.html'
+
+    def get(self, request):
+        active_id = request.session.get('active_profile_id')
+
+        if not active_id:
+            return redirect('accounts:mypages')
+
+        profile = get_object_or_404(
+            UserProfile,
+            id=active_id,
+            owner=request.user
+        )
+
+        form = UserProfileForm(instance=profile)
+        return render(request, self.template_name, {
+            'form': form,
+            'profile': profile
+        })
+
+    def post(self, request):
+        active_id = request.session.get('active_profile_id')
+
+        if not active_id:
+            return redirect('accounts:mypages')
+
+        profile = get_object_or_404(
+            UserProfile,
+            id=active_id,
+            owner=request.user
+        )
+
+        form = UserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:mypages')
+
+        return render(request, self.template_name, {
+            'form': form,
+            'profile': profile
+        })
+
 
 @login_required
 def account_view(request):
