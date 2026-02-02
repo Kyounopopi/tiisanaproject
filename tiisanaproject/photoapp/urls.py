@@ -3,6 +3,6 @@ from .views import PhotoListView, PhotoDetailView
 app_name = "photoapp"
 
 urlpatterns = [
-    path("", PhotoListView.as_view(), name="photo_list"),
+    path("photo/", PhotoListView.as_view(), name="photo_list"),
     path("<int:pk>/", PhotoDetailView.as_view(), name="photo_detail"),
 ]
