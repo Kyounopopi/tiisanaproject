@@ -5,27 +5,150 @@
 
 {% block contents %}
 
+<style>
+.edit-container {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.edit-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #5c4b3b;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.form-group input[type="file"] {
+    padding: 6px;
+}
+
+.btn-area {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-submit {
+    flex: 1;
+    padding: 12px;
+    background-color: #f9eac3;
+    color: #5c4b3b;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #e0d3b8;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background-color: #eee;
+    color: #666;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.profile-icon {
+    width: 90px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 12px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.profile-icon:hover {
+    background-color: #f9eac3;
+    transform: translateY(-2px);
+}
+
+.profile-icon.active {
+    background-color: #f9eac3;
+    border: 2px solid #e0d3b8;
+}
+
+/* 画像 or 文字アイコン */
+.profile-icon img,
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 22px;
+}
+
+</style>
 
 <div class="edit-container">
-    <h2>プロフィール編集</h2>
-    
+   <div class="active-profile-header">
+    {% if profile.profile_image %}
+        <img src="{{ profile.profile_image.url }}" class="profile-icon">
+    {% else %}
+        <div class="profile-icon"
+             style="background-color: {{ profile.icon_color }}">
+            {{ profile.display_name|slice:":1" }}
+        </div>
+    {% endif %}
+
+        <h2>{{ profile.display_name }} のプロフィール編集</h2>
+    </div>
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         {% for field in form %}
-        <div class="form-group">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.errors %}
-                <div style="color: red; font-size: 14px; margin-top: 5px;">
-                    {{ field.errors.0 }}
-                </div>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <div style="color:red; font-size:13px; margin-top:5px;">
+                        {{ field.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
-        
-        <button type="submit" class="btn-submit">保存する</button>
-        <a href="{% url 'accounts:mypages' %}" class="btn-cancel">キャンセル</a>
+
+        <div class="btn-area">
+            <button type="submit" class="btn-submit">保存する</button>
+            <a href="{% url 'accounts:mypages' %}" class="btn-cancel">キャンセル</a>
+        </div>
     </form>
 </div>
+
 {% endblock %}

@@ -31,7 +31,7 @@ urlpatterns = [
           ),
 
     path('mypage/edit/',
-          views.ProfileEditView.as_view(),
+          views.ActivProfileUpdateView.as_view(),
           name="profile_edit"
           ),
 
@@ -39,7 +39,9 @@ urlpatterns = [
          views.ProfileCreateView.as_view(),
          name='profile_create'),
    
-    path('profile/select<int:profile_id>/',
+    path('profile/select/<int:profile_id>/',
          views.SelectProfileView.as_view(),
          name='profile_select'),
+
+    
 ]
