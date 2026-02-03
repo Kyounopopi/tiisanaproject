@@ -1,27 +1,472 @@
 {% extends "base.html" %}
 
 {% block contents %}
-<h1>写真一覧</h1>
-
-{% if photo_list %}
-  <div class="grid">
-    {% for p in photo_list %}
-      <a class="card" href="{% url 'photoapp:photo_detail' p.id %}">
-        <img src="{{ p.image.url }}" alt="photo">
-      </a>
-    {% endfor %}
+<div class="photo-list-container">
+  <div class="header-section">
+    <h1>写真一覧</h1>
+    {% if user.is_authenticated %}
+    <a href="{% url 'photoapp:photo_create' %}" class="btn-upload">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      写真をアップロード
+    </a>
+    {% endif %}
   </div>
-{% else %}
-  <p>写真がありません</p>
-{% endif %}
+
+  <!-- 検索・フィルターセクション -->
+  <div class="search-filter-section">
+    <form method="get" class="search-form">
+      <div class="search-row">
+        <div class="search-field">
+          {{ search_form.search }}
+        </div>
+        <div class="filter-field">
+          {{ search_form.category }}
+        </div>
+        <div class="filter-field">
+          {{ search_form.tag }}
+        </div>
+      </div>
+      
+      <div class="search-row">
+        <div class="filter-field">
+          {{ search_form.date_from }}
+        </div>
+        <div class="filter-field">
+          {{ search_form.date_to }}
+        </div>
+        <div class="filter-field">
+          {{ search_form.sort }}
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn-search">検索</button>
+          <a href="{% url 'photoapp:photo_list' %}" class="btn-reset">クリア</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- アクティブなフィルター表示 -->
+  {% if current_search or current_category or current_tag %}
+  <div class="active-filters">
+    <span class="filter-label">アクティブなフィルター:</span>
+    {% if current_search %}
+    <span class="filter-badge">検索: {{ current_search }}</span>
+    {% endif %}
+    {% if current_category %}
+    <span class="filter-badge">カテゴリ: {{ current_category }}</span>
+    {% endif %}
+    {% if current_tag %}
+    <span class="filter-badge">タグ: {{ current_tag }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- 写真グリッド -->
+  {% if photo_list %}
+    <div class="grid">
+      {% for p in photo_list %}
+        <div class="card">
+          <a href="{% url 'photoapp:photo_detail' p.id %}" class="card-link">
+            <div class="image-wrapper">
+              <img src="{{ p.image.url }}" alt="{{ p.title|default:'photo' }}">
+              {% if p.title %}
+              <div class="image-overlay">
+                <h3>{{ p.title }}</h3>
+              </div>
+              {% endif %}
+            </div>
+          </a>
+          <div class="card-info">
+            <div class="card-meta">
+              {% if p.category %}
+              <span class="category-badge">{{ p.category.name }}</span>
+              {% endif %}
+              <span class="date-text">{{ p.created_at|date:"Y/m/d" }}</span>
+            </div>
+            {% if p.tags.all %}
+            <div class="tags">
+              {% for tag in p.tags.all %}
+              <span class="tag">#{{ tag.name }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- ページネーション -->
+    {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a href="?page=1{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}" class="page-link">最初</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}" class="page-link">前へ</a>
+      {% endif %}
+
+      <span class="page-current">
+        ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}" class="page-link">次へ</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_tag %}&tag={{ current_tag }}{% endif %}" class="page-link">最後</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  {% else %}
+    <div class="empty-state">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      <p>写真がありません</p>
+      {% if user.is_authenticated %}
+      <a href="{% url 'photoapp:photo_create' %}" class="btn-upload-large">最初の写真をアップロード</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
 
 <style>
+  .photo-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .header-section h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+  }
+
+  .btn-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+
+  .btn-upload:hover {
+    background: #0056b3;
+  }
+
+  /* 検索・フィルターセクション */
+  .search-filter-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+    align-items: end;
+  }
+
+  .search-row:last-child {
+    grid-template-columns: 1fr 1fr 1fr auto;
+  }
+
+  .search-field input,
+  .filter-field select,
+  .filter-field input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+
+  .search-field input:focus,
+  .filter-field select:focus,
+  .filter-field input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-search, .btn-reset {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-search {
+    background: #007bff;
+    color: white;
+  }
+
+  .btn-search:hover {
+    background: #0056b3;
+  }
+
+  .btn-reset {
+    background: #6c757d;
+    color: white;
+  }
+
+  .btn-reset:hover {
+    background: #545b62;
+  }
+
+  /* アクティブフィルター */
+  .active-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #e7f3ff;
+    border-radius: 8px;
+  }
+
+  .filter-label {
+    font-weight: 600;
+    color: #0056b3;
+  }
+
+  .filter-badge {
+    background: #007bff;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+  }
+
+  /* グリッドレイアウト */
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
   }
-  .card { display:block; border:1px solid #ddd; border-radius:10px; overflow:hidden; }
-  .card img { width:100%; height:140px; object-fit:cover; display:block; }
+
+  .card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 aspect ratio */
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+
+  .image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .card:hover .image-wrapper img {
+    transform: scale(1.05);
+  }
+
+  .image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px 15px 10px;
+    color: white;
+  }
+
+  .image-overlay h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .card-info {
+    padding: 12px;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .category-badge {
+    background: #e9ecef;
+    color: #495057;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .date-text {
+    color: #6c757d;
+    font-size: 12px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    background: #f0f0f0;
+    color: #007bff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  /* 空の状態 */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+  }
+
+  .empty-state svg {
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  .empty-state p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .btn-upload-large {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+
+  .btn-upload-large:hover {
+    background: #0056b3;
+  }
+
+  /* ページネーション */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .page-link {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s;
+  }
+
+  .page-link:hover {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  .page-current {
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #007bff;
+  }
+
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .header-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .search-row {
+      grid-template-columns: 1fr;
+    }
+
+    .search-row:last-child {
+      grid-template-columns: 1fr;
+    }
+
+    .button-group {
+      width: 100%;
+    }
+
+    .btn-search, .btn-reset {
+      flex: 1;
+    }
+  }
 </style>
 {% endblock %}
