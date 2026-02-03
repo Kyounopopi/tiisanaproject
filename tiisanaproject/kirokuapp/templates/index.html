@@ -4,4 +4,142 @@
 {% block title %}ちいさなキロク{% endblock %}
 
 {% block contents %}
+<style>
+    .home-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #2c3e50;
+    }
+
+    .page-title h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-title p {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+    }
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-item {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .menu-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .menu-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1.5rem;
+        text-decoration: none;
+        color: #2c3e50;
+        height: 100%;
+    }
+
+    .menu-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-item:hover .menu-icon {
+        transform: scale(1.1);
+    }
+
+    .menu-label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    /* 各メニューアイテムの色 */
+    .menu-item:nth-child(1) .menu-icon { color: #ff6b6b; }
+    .menu-item:nth-child(2) .menu-icon { color: #4ecdc4; }
+    .menu-item:nth-child(3) .menu-icon { color: #ffd93d; }
+    .menu-item:nth-child(4) .menu-icon { color: #95e1d3; }
+    .menu-item:nth-child(5) .menu-icon { color: #a8dadc; }
+
+    @media (max-width: 600px) {
+        .menu-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .menu-link {
+            padding: 1.5rem 1rem;
+        }
+
+        .menu-icon {
+            font-size: 2rem;
+        }
+
+        .menu-label {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+<div class="home-container">
+    <div class="page-title">
+        <h1>ちいさなキロク</h1>
+        <p> ホーム</p>
+    </div>
+
+    <ul class="menu-grid">
+        <li class="menu-item">
+            <a href="{% url 'accounts:login' %}" class="menu-link">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-label">ホーム</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'accounts:login' %}" class="menu-link">
+                <span class="menu-icon">📈</span>
+                <span class="menu-label">成長記録</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'accounts:login' %}" class="menu-link">
+                <span class="menu-icon">📔</span>
+                <span class="menu-label">アルバム</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'accounts:login' %}" class="menu-link">
+                <span class="menu-icon">📷</span>
+                <span class="menu-label">写真管理</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'accounts:login' %}" class="menu-link">
+                <span class="menu-icon">📅</span>
+                <span class="menu-label">カレンダー</span>
+            </a>
+        </li>
+    </ul>
+</div>
 {% endblock %}
