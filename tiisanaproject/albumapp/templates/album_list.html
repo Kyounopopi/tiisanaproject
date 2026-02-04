@@ -1,24 +1,74 @@
 {% extends "base.html" %}
 
 {% block contents %}
-<h1>アルバム一覧</h1>
 
-<a href="{% url 'albumapp:album_create' %}">新しいアルバムを作成</a>
+<style>
+.album-container {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+}
 
-<hr>
+.album-container h1 {
+    margin-bottom: 20px;
+}
 
-{% if albums %}
-    <ul>
-        {% for album in albums %}
-        <li>
-            <a href="{% url 'albumapp:album_detail' album.pk %}">
-                {{ album.name }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>まだアルバムがありません</p>
-{% endif %}
+.album-create-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 10px 26px;
+    border-radius: 24px;
+    background-color: #8b6f4e;
+    color: white;
+    text-decoration: none;
+}
+
+.album-create-link:hover {
+    background-color: #6f563c;
+}
+
+.album-list {
+    list-style: none;
+    padding: 0;
+}
+
+.album-list li {
+    margin: 12px 0;
+}
+
+.album-list a {
+    text-decoration: none;
+    color: #8b6f4e;
+    font-size: 18px;
+}
+
+.album-list a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="album-container">
+
+    <h1>アルバム一覧</h1>
+
+    <a class="album-create-link" href="{% url 'albumapp:album_create' %}">
+        新しいアルバムを作成
+    </a>
+
+    {% if albums %}
+        <ul class="album-list">
+            {% for album in albums %}
+                <li>
+                    <a href="{% url 'albumapp:album_detail' album.pk %}">
+                        {{ album.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>まだアルバムがありません</p>
+    {% endif %}
+
+</div>
 
 {% endblock %}

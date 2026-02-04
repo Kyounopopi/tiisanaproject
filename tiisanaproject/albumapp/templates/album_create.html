@@ -1,23 +1,69 @@
 {% extends "base.html" %}
 
 {% block contents %}
-<h1>アルバム作成</h1>
 
-<form
-    method="post"
-    action="{% url 'albumapp:album_create' %}"
-    enctype="multipart/form-data"
->
+<style>
+.album-container {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+}
 
-    {% csrf_token %}
+.album-container h1 {
+    margin-bottom: 30px;
+}
 
-    <h3>アルバム名</h3>
-    {{ album_form.name }}
+.album-container h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
 
-    <h3>写真（複数選択可）</h3>
-    {{ photo_form.images }}
+.album-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-    <br><br>
-    <button type="submit">登録</button>
-</form>
+.album-container input[type="file"] {
+    margin-top: 10px;
+}
+
+.album-container button {
+    margin-top: 30px;
+    padding: 12px 32px;
+    font-size: 16px;
+    border: none;
+    border-radius: 24px;
+    background-color: #8b6f4e;
+    color: #fff;
+    cursor: pointer;
+}
+
+.album-container button:hover {
+    background-color: #6f563c;
+}
+</style>
+
+<div class="album-container">
+    <h1>アルバム作成</h1>
+
+    <form
+        method="post"
+        action="{% url 'albumapp:album_create' %}"
+        enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+
+        <h3>アルバム名</h3>
+        {{ album_form.name }}
+
+        <h3>写真（複数選択可）</h3>
+        {{ photo_form.images }}
+
+        <button type="submit">登録</button>
+    </form>
+</div>
+
 {% endblock %}
