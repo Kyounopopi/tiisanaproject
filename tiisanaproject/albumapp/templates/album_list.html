@@ -11,7 +11,7 @@
     <ul>
         {% for album in albums %}
         <li>
-            <a href="{% url 'albumapp:album_detail' album.slug %}">
+            <a href="{% url 'albumapp:album_detail' album.pk %}">
                 {{ album.name }}
             </a>
         </li>
