@@ -5,22 +5,53 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Album, Photo
-from .forms import AlbumCreateForm
+from .forms import AlbumCreateForm, PhotoCreateForm
+
+from django.utils.text import slugify
 
 import logging
 
 logger = logging.getLogger(__name__)
 
+class AlbumCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(
+            request,
+            "album_create.html",
+            {
+                "album_form": AlbumCreateForm(),
+                "photo_form": PhotoCreateForm(),
+            }
+        )
 
-class AlbumCreateView(LoginRequiredMixin, CreateView):
-    model = Album
-    fields = ["name"]
-    template_name = "album_create.html"
-    success_url = "/album/"
+    def post(self, request):
+        album_form = AlbumCreateForm(request.POST)
+        photo_form = PhotoCreateForm(request.POST, request.FILES)
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+        if album_form.is_valid() and photo_form.is_valid():
+            album = album_form.save(commit=False)
+            album.user = request.user
+            album.slug = slugify(album.name)
+            album.save()
+
+            images = request.FILES.getlist("images")
+            for image in images:
+                Photo.objects.create(
+                    album=album,
+                    image=image
+                )
+
+            return redirect("albumapp:album_list")
+
+        return render(
+            request,
+            "album_create.html",
+            {
+                "album_form": album_form,
+                "photo_form": photo_form,
+            }
+        )
+
 
 class PhotoCreateView(LoginRequiredMixin, View):
     def post(self, request, slug):
@@ -46,7 +77,7 @@ class AlbumListView(LoginRequiredMixin, ListView):
     context_object_name = "albums"
 
     def get_queryset(self):
-        return Album.objects.filter(user=self.request.user)
+        return Album.objects.all()
 
 
 class AlbumDetailView(LoginRequiredMixin, DetailView):
