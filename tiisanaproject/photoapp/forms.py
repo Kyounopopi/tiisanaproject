@@ -53,23 +53,15 @@ class PhotoForm(forms.ModelForm):
             'category': 'カテゴリ',
             'taken_at': '撮影日時'
         }
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        
-        # 新しいタグの処理
-        new_tags = self.cleaned_data.get('new_tags', '')
-        if new_tags:
-            tag_names = [name.strip() for name in new_tags.split(',') if name.strip()]
+        def save(self, commit=True):
+            instance = super().save(commit=commit)
+            if self.cleaned_data.get('new_tags'):
+                tag_names = [name.strip() for name in self.cleaned_data['new_tags'].split(',')]
             for tag_name in tag_names:
-                tag, created = Tag.objects.get_or_create(name=tag_name)
-                instance.tags.add(tag)
-        
-        if commit:
-            instance.save()
-            self.save_m2m()  # 多対多の関係を保存
-        
-        return instance
+                if tag_name:
+                    tag, created = Tag.objects.get_or_create(name=tag_name)
+                    instance.tags.add(tag)
+                    return instance
 
 
 class PhotoSearchForm(forms.Form):

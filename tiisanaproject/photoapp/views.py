@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 from .models import Photo, Category, Tag
 from .forms import PhotoForm, PhotoSearchForm
-
+import os
 
 class PhotoListView(ListView):
     model = Photo
@@ -70,7 +70,11 @@ class PhotoDetailView(DetailView):
 
     def get_queryset(self):
         return Photo.objects.select_related('category', 'user').prefetch_related('tags')
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filename'] = os.path.basename(self.object.image.name)
+        return context
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
     model = Photo
