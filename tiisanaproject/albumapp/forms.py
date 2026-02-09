@@ -14,6 +14,6 @@ class MultipleFileInput(forms.ClearableFileInput):
 
 class PhotoCreateForm(forms.Form):
     images = forms.FileField(
-        widget=MultipleFileInput(attrs={"multiple": True}),
-        required=True
+        widget=MultipleFileInput(),
+        required=False
     )

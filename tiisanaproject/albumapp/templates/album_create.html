@@ -44,6 +44,20 @@
 .album-container button:hover {
     background-color: #6f563c;
 }
+.album-container .back-link {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 12px 28px;
+    border-radius: 24px;
+    background-color: #d6c6a8; /* 薄めの茶色 */
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.album-container .back-link:hover {
+    background-color: #bfae8c;
+}
 </style>
 
 <div class="album-container">
@@ -62,8 +76,14 @@
         <h3>写真（複数選択可）</h3>
         {{ photo_form.images }}
 
+        {{ album_form.errors }}
+        {{ photo_form.errors }}
+
+
         <button type="submit">登録</button>
+        <a class="back-link" href="{% url 'albumapp:album_list' %}">一覧に戻る</a>
     </form>
+    
 </div>
 
 {% endblock %}

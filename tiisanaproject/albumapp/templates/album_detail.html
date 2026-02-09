@@ -1,22 +1,96 @@
-{% extends 'base.html'  %}
-<h1>{{ album.name }}</h1>
+{% extends "base.html" %}
 
-<a href="{% url 'albumapp:album_list' %}">← 一覧に戻る</a>
-<a href="{% url 'albumapp:album_create' %}">＋ アルバム追加</a>
+{% block contents %}
 
-<hr>
+<style>
+.album-photo {
+    width: 250px;   /* 好きなサイズ */
+    height: auto;   /* 縦横比キープ */
+    border-radius: 10px;
+}
 
-{% for photo in album.photos.all %}
-    <img src="{{ photo.image.url }}" width="200">
+/* ボタンエリア横並び */
+.mb-4 {
+    display: flex;
+    align-items: center;
+}
 
-    {% if photo.is_favorite %}
-        ⭐
-    {% endif %}
+/* 共通ボタンデザイン */
+.mb-4 a {
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
 
-    <form method="post" action="{% url 'toggle_favorite' photo.id %}">
-        {% csrf_token %}
-        <button type="submit">お気に入り切替</button>
-    </form>
-{% empty %}
-    <p>写真がまだありません</p>
-{% endfor %}
+/* 一覧に戻るボタン */
+.btn-outline-secondary {
+    border: 1px solid #999;
+    color: #555;
+    background: #fff;
+}
+
+.btn-outline-secondary:hover {
+    background: #eee;
+}
+
+/* アルバム追加ボタン（右寄せ） */
+.btn-primary {
+    margin-left: auto;
+    background: #8b6f4e;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #6f563c;
+}
+
+</style>
+
+<div class="container mt-4">
+
+    <h1 class="mb-3">{{ album.name }}</h1>
+
+    <div class="mb-4">
+        <a class="btn btn-outline-secondary" href="{% url 'albumapp:album_list' %}">
+            一覧に戻る
+        </a>
+        <a class="btn btn-primary" href="{% url 'albumapp:album_create' %}">
+            アルバム追加
+        </a>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        {% for photo in album.photos.all %}
+            <div class="col-md-3 mb-4 text-center">
+
+                <img src="{{ photo.image.url }}" class="img-fluid rounded shadow-sm album-photo">
+
+                <div class="mt-2">
+                    {% if photo.is_favorite %}
+                        <span style="font-size:20px;">⭐</span>
+                    {% endif %}
+                </div>
+
+                <form method="post"
+                      action="{% url 'albumapp:toggle_favorite' photo.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-warning mt-2"
+                            type="submit">
+                        お気に入り切替
+                    </button>
+                </form>
+
+            </div>
+        {% empty %}
+            <p>写真がまだありません</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
