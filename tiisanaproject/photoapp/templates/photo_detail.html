@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load photo_filters %}
 {% block contents %}
 <div class="photo-detail-container">
   <div class="detail-header">
@@ -88,7 +88,7 @@
           {% endif %}
           <tr>
             <th>ファイル名</th>
-            <td>{{ photo.image.name|basename }}</td>
+            <td>{{ filename }}</td>
           </tr>
         </table>
       </div>
