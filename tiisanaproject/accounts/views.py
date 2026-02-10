@@ -239,37 +239,3 @@ class ActivProfileUpdateView(LoginRequiredMixin, View):
         })
 
 
-@login_required
-def account_view(request):
-    user = request.user
-
-
-    if user.user_type == 'general':
-        
-        try:
-            profile = user.general_profile
-            profile_type = '一般ユーザー'
-        except GenerauUserPrlfile.DoesNotExist:
-            profile = None
-            profile_type = '一般ユーザー'
-
-    else:
-        profile = None
-        prifile_type = '不明'
-
-    context = {
-        'user': user,
-        'profile': profile,
-        'profile_type':profile_type,
-    }
-
-    return render(request, 'accounts/accountscreen.html', context)
-
-
-
-
-
-
-
-
-
