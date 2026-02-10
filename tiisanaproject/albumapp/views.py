@@ -54,7 +54,7 @@ class AlbumCreateView(LoginRequiredMixin, View):
         if not photo_form.is_valid():
             print(photo_form.errors)
 
-        if album_form.is_valid() and photo_form.is_valid():
+        if album_form.is_valid():
             album = album_form.save(commit=False)
             album.user = request.user
             album.slug = slugify(album.name)
@@ -80,9 +80,11 @@ class AlbumCreateView(LoginRequiredMixin, View):
             "album_create.html",
             {
                 "album_form": album_form,
-                "photo_form": photo_form,
+                "photo_form": PhotoCreateForm(),
             }
         )
+
+
 
 
 class PhotoCreateView(LoginRequiredMixin, View):
@@ -100,7 +102,8 @@ class ToggleFavoriteView(View):
         photo = get_object_or_404(Photo, id=photo_id)
         photo.is_favorite = not photo.is_favorite
         photo.save()
-        return redirect("album_detail", pk=photo.album.id)
+        return redirect("albumapp:album_detail", pk=photo.album.pk)
+
 
 
 class AlbumListView(LoginRequiredMixin, ListView):
@@ -116,7 +119,5 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
     model = Album
     template_name = "album_detail.html"
     context_object_name = "album"
-    slug_field = "slug"
-    slug_url_kwarg = "slug"
 
 

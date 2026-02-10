@@ -2,17 +2,29 @@
 {% block contents %}
 <h1>{{ album.name }}</h1>
 
-<a href="{% url 'albumapp:album_list' %}">← 一覧に戻る</a>
-<a href="{% url 'albumapp:album_create' %}">＋ アルバム追加</a>
+{% block contents %}
 
-<hr>
+<style>
+.album-photo {
+    width: 250px;   /* 好きなサイズ */
+    height: auto;   /* 縦横比キープ */
+    border-radius: 10px;
+}
 
-{% for photo in album.photos.all %}
-    <img src="{{ photo.image.url }}" width="200">
+/* ボタンエリア横並び */
+.mb-4 {
+    display: flex;
+    align-items: center;
+}
 
-    {% if photo.is_favorite %}
-        ⭐
-    {% endif %}
+/* 共通ボタンデザイン */
+.mb-4 a {
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
 
     <form method="post" action="{% url 'albumapp:toggle_favorite' photo.id %}">
         {% csrf_token %}
