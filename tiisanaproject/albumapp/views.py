@@ -10,23 +10,49 @@ from .forms import AlbumCreateForm, PhotoCreateForm
 from django.utils.text import slugify
 
 import logging
+import os
+from django.conf import settings
+
 
 logger = logging.getLogger(__name__)
 
 class AlbumCreateView(LoginRequiredMixin, View):
     def get(self, request):
+
+
+        library_path = os.path.join(settings.MEDIA_ROOT,"photos")
+
+        files = []
+        if os.path.exists(library_path):
+            files = [
+                (f, f)
+                for f in os.listdir(library_path)
+                if f.lower().endswith((".jpg","png","jpeg","webp"))
+            ]
+
         return render(
             request,
             "album_create.html",
             {
                 "album_form": AlbumCreateForm(),
-                "photo_form": PhotoCreateForm(),
+                "photo_form": PhotoCreateForm(image_choices=files),
             }
         )
 
     def post(self, request):
+
+        library_path = os.path.join(settings.MEDIA_ROOT,"photos")
+
+        files = [(f,f) for f in os.listdir(library_path)]
+    
         album_form = AlbumCreateForm(request.POST)
-        photo_form = PhotoCreateForm(request.POST, request.FILES)
+        photo_form = PhotoCreateForm(request.POST, request.FILES,image_choices=files)
+
+        if not album_form.is_valid():
+            print(album_form.errors)
+        
+        if not photo_form.is_valid():
+            print(photo_form.errors)
 
         if album_form.is_valid() and photo_form.is_valid():
             album = album_form.save(commit=False)
@@ -34,12 +60,18 @@ class AlbumCreateView(LoginRequiredMixin, View):
             album.slug = slugify(album.name)
             album.save()
 
-            images = request.FILES.getlist("images")
-            for image in images:
+            for image in request.FILES.getlist("images"):
+                Photo.objects.create(album=album, image=image)
+
+            
+           
+
+            for filename in photo_form.cleaned_data["existing_images"]:
                 Photo.objects.create(
                     album=album,
-                    image=image
+                    image=f"library/{filename}"
                 )
+            
 
             return redirect("albumapp:album_list")
 

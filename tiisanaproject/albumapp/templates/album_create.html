@@ -60,10 +60,14 @@
         {{ album_form.name }}
 
         <h3>写真（複数選択可）</h3>
-        {{ photo_form.images }}
+        <input type="file" name="images" multiple>
+
+        <h3>既存写真から選択</h3>
+        {{ photo_form.existing_images }}
 
         <button type="submit">登録</button>
     </form>
 </div>
 
 {% endblock %}
+ 

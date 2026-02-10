@@ -13,7 +13,23 @@ class MultipleFileInput(forms.ClearableFileInput):
 
 
 class PhotoCreateForm(forms.Form):
-    images = forms.FileField(
-        widget=MultipleFileInput(attrs={"multiple": True}),
-        required=True
+
+    existing_images = forms.MultipleChoiceField(
+        required = False,
+        widget=forms.CheckboxSelectMultiple
     )
+
+    def __init__(self, *args, **kwargs):
+        image_choices = kwargs.pop("image_choices",[])
+        super().__init__(*args,**kwargs)
+
+        self.fields["existing_images"].choices = image_choices
+
+    def clean_images(self):
+        cleaned_data = super().clean()
+
+        cleaned_data["images"] = self.files.getlist("images")
+
+        return cleaned_data
+
+       
