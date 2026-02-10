@@ -19,7 +19,7 @@ th {
 }
 
 /* =========================
-   一覧データだけ中央寄せ
+   一覧データ中央寄せ
    ========================= */
 
 tbody td {
@@ -27,58 +27,64 @@ tbody td {
 }
 
 /* =========================
-   登録・変更フォーム（横並び・統一）
+   登録フォーム（base寄せ）
    ========================= */
 
 .register-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-    flex-wrap: nowrap;          /* 折り返し防止 */
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #f7f3ec;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    display: block;
+    clear: both; /* ← float対策 */
 }
 
-/* label */
+/* ラベル */
 .register-form label {
+    display: block;
     font-weight: bold;
-    white-space: nowrap;        /* ラベル改行防止 */
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
-/* 入力欄・ボタン 共通設定 */
+/* 入力欄 */
 .register-form input[type="date"],
 .register-form input[type="text"],
-.register-form textarea,
-.register-form button {
-    height: 32px;
-    padding: 4px 6px;
-    font-size: 14px;
+.register-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
-/* 名前入力 */
-.register-form input[type="text"] {
-    width: 120px;
-}
-
-/* textarea を 1行入力風に */
+/* textarea */
 .register-form textarea {
-    width: 200px;
-    resize: none;
-    overflow: hidden;
-    line-height: 1.4;
-    white-space: nowrap;        /* 改行防止 */
+    min-height: 140px;
+    resize: vertical;
+    white-space: pre-wrap;
+    line-height: 1.6;
 }
 
-/* 登録・更新ボタン */
+/* 登録ボタン */
 .register-form button {
-    padding: 0 12px;
+    margin-top: 20px;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 20px;
+    background: #8b6f4e;
+    color: white;
     cursor: pointer;
-    white-space: nowrap;        /* 文字の縦並び防止 */
-    align-self: center;         /* 高さズレ防止 */
+}
+
+.register-form button:hover {
+    background: #6f563c;
 }
 
 /* =========================
-   変更・削除ボタン（一覧用）
+   操作ボタン
    ========================= */
 
 .action-buttons {
@@ -108,4 +114,48 @@ tbody td {
     background-color: #e57373;
     color: white;
     cursor: pointer;
+}
+
+/* =========================
+   完了メッセージページ
+   ========================= */
+
+.complete-message {
+    max-width: 600px;
+    margin: 80px auto; /* 中央寄せ安定 */
+    padding: 30px;
+    text-align: center;
+    background: #f7f3ec;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    clear: both; /* ← 右上寄り防止 */
+}
+
+.complete-message h2 {
+    margin-bottom: 20px;
+}
+
+/* 戻るボタン */
+.back-link,
+
+.complete-message a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 28px;
+    background: #8b6f4e;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+}
+
+.back-link:hover,
+.complete-message a:hover {
+    background: #6f563c;
+}
+
+/* 中央配置だけ追加 */
+.back-link {
+    display: block;
+    width: fit-content;
+    margin: 30px auto;
 }

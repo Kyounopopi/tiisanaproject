@@ -1,11 +1,59 @@
 {% extends "base.html" %}
 
 {% block contents %}
-<h2>登録が完了しました 🎉</h2>
 
-<p>成長データの登録が正常に完了しました。</p>
+<style>
+/* ページ中央に固定 */
+.complete-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
 
-<a href="{% url 'growthapp:growth' %}">
-    一覧に戻る
-</a>
+/* メッセージカード */
+.complete-message {
+    max-width: 600px;
+    width: 90%;
+    padding: 40px 30px;
+    background: #f7f3ec;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+/* タイトル */
+.complete-message h2 {
+    color: #6f563c;
+    margin-bottom: 20px;
+}
+
+/* 戻るボタン */
+.complete-message a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: #8b6f4e;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+}
+
+.complete-message a:hover {
+    background: #6f563c;
+}
+</style>
+
+
+<div class="complete-wrapper">
+    <div class="complete-message">
+        <h2>登録が完了しました</h2>
+
+        <a href="{% url 'growthapp:growth' %}">
+            一覧に戻る
+        </a>
+    </div>
+</div>
+
 {% endblock %}

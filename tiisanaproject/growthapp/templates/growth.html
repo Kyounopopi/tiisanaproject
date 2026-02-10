@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'growthapp/style.css' %}">
 
 <!-- 🔽 成長データの登録（上に表示） -->
-<h2>成長データの登録</h2>
+<h2 style="text-align: center;">成長データの登録</h2>
 
 <form method="POST" class="register-form">
     {% csrf_token %}
@@ -17,10 +17,10 @@
     <label>名前</label>
     <input type="text" name="name" required>
 
-    <label>発達記録</label>
+    <label class="full-textarea">発達記録</label>
     <textarea name="baby_log"></textarea>
 
-    <label>コメント</label>
+    <label class="full-textarea">コメント</label>
     <textarea name="comment"></textarea>
 
     <button type="submit">登録</button>
@@ -29,7 +29,7 @@
 <hr>
 
 <!-- 🔽 一覧＋変更＋削除（下に表示） -->
-<table class="common-table">
+<table style="margin-bottom: 200px;" class="common-table">
     <thead>
         <tr>
             <th>日付</th>
