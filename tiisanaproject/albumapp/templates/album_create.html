@@ -76,13 +76,6 @@
         <h3>写真（複数選択可）</h3>
         <input type="file" name="images" multiple>
 
-        <h3>既存写真から選択</h3>
-        {{ photo_form.existing_images }}
-
-        {{ album_form.errors }}
-        {{ photo_form.errors }}
-
-
         <button type="submit">登録</button>
         <a class="back-link" href="{% url 'albumapp:album_list' %}">一覧に戻る</a>
     </form>

@@ -2,8 +2,6 @@
 {% block contents %}
 <h1>{{ album.name }}</h1>
 
-{% block contents %}
-
 <style>
 .album-photo {
     width: 250px;   /* 好きなサイズ */
@@ -81,13 +79,4 @@
 
 </div>
 
-=======
-    <form method="post" action="{% url 'albumapp:toggle_favorite' photo.id %}">
-        {% csrf_token %}
-        <button type="submit">お気に入り切替</button>
-    </form>
-{% empty %}
-    <p>写真がまだありません</p>
-{% endfor %}
->>>>>>> 8d176ca3a6889541e7c7e0f471b60609135f600c
 {% endblock %}
