@@ -70,21 +70,6 @@
 
                 <img src="{{ photo.image.url }}" class="img-fluid rounded shadow-sm album-photo">
 
-                <div class="mt-2">
-                    {% if photo.is_favorite %}
-                        <span style="font-size:20px;">⭐</span>
-                    {% endif %}
-                </div>
-
-                <form method="post"
-                      action="{% url 'albumapp:toggle_favorite' photo.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-sm btn-outline-warning mt-2"
-                            type="submit">
-                        お気に入り切替
-                    </button>
-                </form>
-
             </div>
         {% empty %}
             <p>写真がまだありません</p>
