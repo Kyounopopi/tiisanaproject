@@ -3,6 +3,7 @@
 {% block contents %}
 
 <style>
+/* （CSSそのままなので省略せず残してOK） */
 .album-container {
     max-width: 500px;
     margin: 40px auto;
@@ -49,7 +50,7 @@
     margin-left: 5px;
     padding: 12px 28px;
     border-radius: 24px;
-    background-color: #d6c6a8; /* 薄めの茶色 */
+    background-color: #d6c6a8;
     color: #333;
     text-decoration: none;
     font-size: 16px;
@@ -65,16 +66,22 @@
 
     <form
         method="post"
-        action="{% url 'albumapp:album_create' %}"
+       
         enctype="multipart/form-data"
     >
         {% csrf_token %}
 
+        <!-- ★ フォーム全体のエラー -->
+        {{ album_form.non_field_errors }}
+        {{ photo_form.non_field_errors }}
+
         <h3>アルバム名</h3>
         {{ album_form.name }}
+        {{ album_form.name.errors }}
 
         <h3>写真（複数選択可）</h3>
         <input type="file" name="images" multiple>
+        {{ photo_form.images.errors }}
 
         <button type="submit">登録</button>
         <a class="back-link" href="{% url 'albumapp:album_list' %}">一覧に戻る</a>
@@ -82,5 +89,11 @@
     
 </div>
 
+<!-- ★ アラート出したいならここ -->
+{% if album_form.errors or photo_form.errors %}
+<script>
+alert("未入力欄があります！");
+</script>
+{% endif %}
+
 {% endblock %}
- 

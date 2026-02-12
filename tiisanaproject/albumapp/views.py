@@ -17,17 +17,16 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 class AlbumCreateView(LoginRequiredMixin, View):
+
     def get(self, request):
-
-
-        library_path = os.path.join(settings.MEDIA_ROOT,"photos")
+        library_path = os.path.join(settings.MEDIA_ROOT, "photos")
 
         files = []
         if os.path.exists(library_path):
             files = [
                 (f, f)
                 for f in os.listdir(library_path)
-                if f.lower().endswith((".jpg","png","jpeg","webp"))
+                if f.lower().endswith((".jpg", "png", "jpeg", "webp"))
             ]
 
         return render(
@@ -40,52 +39,50 @@ class AlbumCreateView(LoginRequiredMixin, View):
         )
 
     def post(self, request):
+        library_path = os.path.join(settings.MEDIA_ROOT, "photos")
 
-        library_path = os.path.join(settings.MEDIA_ROOT,"photos")
+        files = []
+        if os.path.exists(library_path):
+            files = [
+                (f, f)
+                for f in os.listdir(library_path)
+                if f.lower().endswith((".jpg", "png", "jpeg", "webp"))
+            ]
 
-        files = [(f,f) for f in os.listdir(library_path)]
-    
         album_form = AlbumCreateForm(request.POST)
-        photo_form = PhotoCreateForm(request.POST, request.FILES,image_choices=files)
+        photo_form = PhotoCreateForm(request.POST, request.FILES, image_choices=files)
 
-        if not album_form.is_valid():
-            print(album_form.errors)
-        
-        if not photo_form.is_valid():
-            print(photo_form.errors)
+        if album_form.is_valid() and photo_form.is_valid():
+            uploaded = request.FILES.getlist("images")
+            existing = photo_form.cleaned_data.get("existing_images")
 
-        if album_form.is_valid():
-            album = album_form.save(commit=False)
-            album.user = request.user
-            album.slug = slugify(album.name)
-            album.save()
+            if not uploaded and not existing:
+                photo_form.add_error(None, "写真を1枚以上選択してください")
+            else:
+                album = album_form.save(commit=False)
+                album.user = request.user
+                album.slug = slugify(album.name)
+                album.save()
 
-            for image in request.FILES.getlist("images"):
-                Photo.objects.create(album=album, image=image)
+                for image in uploaded:
+                    Photo.objects.create(album=album, image=image)
 
-            
-           
+                for filename in existing:
+                    Photo.objects.create(
+                        album=album,
+                        image=f"library/{filename}"
+                    )
 
-            for filename in photo_form.cleaned_data["existing_images"]:
-                Photo.objects.create(
-                    album=album,
-                    image=f"library/{filename}"
-                )
-            
-
-            return redirect("albumapp:album_list")
+                return redirect("albumapp:album_list")
 
         return render(
             request,
             "album_create.html",
             {
                 "album_form": album_form,
-                "photo_form": PhotoCreateForm(),
+                "photo_form": photo_form,
             }
         )
-
-
-
 
 class PhotoCreateView(LoginRequiredMixin, View):
     def post(self, request, slug):
