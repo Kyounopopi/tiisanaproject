@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% extends 'base.html'  %}
+{% block contents %}
+<h1>{{ album.name }}</h1>
 
 {% block contents %}
 
@@ -24,6 +26,7 @@
     transition: 0.2s;
 }
 
+<<<<<<< HEAD
 /* 一覧に戻るボタン */
 .btn-outline-secondary {
     border: 1px solid #999;
@@ -78,4 +81,13 @@
 
 </div>
 
+=======
+    <form method="post" action="{% url 'albumapp:toggle_favorite' photo.id %}">
+        {% csrf_token %}
+        <button type="submit">お気に入り切替</button>
+    </form>
+{% empty %}
+    <p>写真がまだありません</p>
+{% endfor %}
+>>>>>>> 8d176ca3a6889541e7c7e0f471b60609135f600c
 {% endblock %}
